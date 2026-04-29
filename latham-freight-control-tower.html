@@ -1,0 +1,3033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Latham Freight Control Tower</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   LATHAM FREIGHT CONTROL TOWER — PART 1
+   Shell, nav, filters, scaffolds, design tokens.
+   ========================================================= */
+
+:root {
+  --navy:        #073B4C;
+  --navy-dark:   #042A38;
+  --navy-deep:   #021D27;
+  --aqua:        #2EC4B6;
+  --aqua-soft:   #DDF8F5;
+  --aqua-deep:   #1A8C81;
+  --surface:     #FFFFFF;
+  --surface-alt: #F5F8FA;
+  --surface-sub: #EDF2F5;
+  --border:      #D9E2E7;
+  --border-soft: #E8EEF1;
+  --text-strong: #132A33;
+  --text:        #2A4049;
+  --text-muted:  #5C6F7B;
+  --text-faint:  #8B9CA5;
+  --success:     #0F766E;
+  --success-bg:  #E6F4F2;
+  --warning:     #B45309;
+  --warning-bg:  #FDF2E2;
+  --critical:    #991B1B;
+  --critical-bg: #FBE9E9;
+  --info:        #1E5A78;
+  --info-bg:     #E4EEF4;
+
+  --radius-sm: 4px;
+  --radius:    8px;
+  --radius-lg: 12px;
+
+  --shadow-sm: 0 1px 2px rgba(7, 59, 76, 0.06);
+  --shadow:    0 1px 3px rgba(7, 59, 76, 0.08), 0 1px 2px rgba(7, 59, 76, 0.04);
+  --shadow-lg: 0 4px 12px rgba(7, 59, 76, 0.10), 0 2px 4px rgba(7, 59, 76, 0.06);
+
+  --font-display: 'Geist', system-ui, -apple-system, sans-serif;
+  --font-mono:    'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--surface-alt);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+/* ---------------------------------------------------------
+   SHELL & TOP STRIPE
+   --------------------------------------------------------- */
+
+.shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topStripe {
+  height: 4px;
+  background: linear-gradient(90deg, var(--navy-deep) 0%, var(--navy) 35%, var(--aqua) 100%);
+}
+
+/* ---------------------------------------------------------
+   HERO
+   --------------------------------------------------------- */
+
+.hero {
+  background: var(--navy);
+  background-image:
+    radial-gradient(ellipse at 100% 0%, rgba(46, 196, 182, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 0% 100%, rgba(46, 196, 182, 0.08) 0%, transparent 60%);
+  color: #fff;
+  padding: 28px 32px 24px;
+  border-bottom: 1px solid var(--navy-dark);
+}
+
+.heroRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.brandWrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brandMark {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--aqua) 0%, var(--aqua-deep) 100%);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.15), 0 4px 12px rgba(0,0,0,0.25);
+  position: relative;
+}
+
+.brandMark::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1.5px solid rgba(255,255,255,0.85);
+  border-radius: 4px;
+  border-bottom: none;
+  border-right: none;
+}
+
+.brandMark::after {
+  content: 'LFCT';
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.5px;
+  position: absolute;
+  bottom: 6px;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--aqua);
+  margin-bottom: 4px;
+}
+
+.heroTitle {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  margin: 0;
+  color: #fff;
+}
+
+.heroSubtitle {
+  margin-top: 6px;
+  color: rgba(255,255,255,0.72);
+  font-size: 13.5px;
+  max-width: 720px;
+  line-height: 1.55;
+}
+
+.pillRow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  max-width: 360px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.92);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.3px;
+}
+
+.pill .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--aqua);
+  box-shadow: 0 0 0 2px rgba(46,196,182,0.25);
+}
+
+.pill.warn .dot  { background: #F59E0B; box-shadow: 0 0 0 2px rgba(245,158,11,0.25); }
+.pill.crit .dot  { background: #EF4444; box-shadow: 0 0 0 2px rgba(239,68,68,0.25); }
+
+/* ---------------------------------------------------------
+   TAB BAR
+   --------------------------------------------------------- */
+
+.tabbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: var(--shadow-sm);
+}
+
+.tabButton {
+  padding: 14px 16px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.12s ease, border-color 0.12s ease;
+}
+
+.tabButton:hover {
+  color: var(--text-strong);
+}
+
+.tabButton.is-active {
+  color: var(--navy);
+  border-bottom-color: var(--aqua);
+  font-weight: 600;
+}
+
+.tabButton .num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-faint);
+  font-weight: 500;
+}
+
+.tabButton.is-active .num {
+  color: var(--aqua-deep);
+}
+
+.tabButton .badgeCount {
+  background: var(--surface-sub);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 999px;
+  min-width: 18px;
+  text-align: center;
+}
+
+.tabButton.has-alert .badgeCount {
+  background: var(--critical-bg);
+  color: var(--critical);
+}
+
+/* ---------------------------------------------------------
+   FILTER ROW
+   --------------------------------------------------------- */
+
+.filterRow {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 32px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filterRow .filterLabel {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-faint);
+  margin-right: 4px;
+}
+
+.filterChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 11px;
+  border-radius: 6px;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  font-size: 12.5px;
+  color: var(--text);
+  transition: all 0.12s ease;
+}
+
+.filterChip:hover {
+  border-color: var(--aqua);
+  background: var(--aqua-soft);
+}
+
+.filterChip.is-active {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+}
+
+.filterChip.is-active .chipValue {
+  color: var(--aqua);
+}
+
+.filterChip .chipKey {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-faint);
+}
+
+.filterChip.is-active .chipKey {
+  color: rgba(255,255,255,0.55);
+}
+
+.filterChip .chipValue {
+  font-weight: 500;
+}
+
+.filterChip .chipCaret {
+  font-size: 9px;
+  color: var(--text-faint);
+  margin-left: 2px;
+}
+
+.filterChip.is-active .chipCaret {
+  color: rgba(255,255,255,0.6);
+}
+
+.filterChip.clearAll {
+  margin-left: auto;
+  background: transparent;
+  border: 1px dashed var(--border);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.filterChip.clearAll:hover {
+  background: var(--surface-alt);
+  color: var(--critical);
+  border-color: var(--critical);
+  border-style: solid;
+}
+
+.locationBanner {
+  background: var(--aqua-soft);
+  border-bottom: 1px solid var(--aqua);
+  padding: 8px 32px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12.5px;
+  color: var(--aqua-deep);
+}
+
+.locationBanner .label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 600;
+}
+
+.locationBanner .clearLoc {
+  margin-left: auto;
+  color: var(--aqua-deep);
+  font-size: 11px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.locationBanner.hidden {
+  display: none;
+}
+
+/* ---------------------------------------------------------
+   PAGE
+   --------------------------------------------------------- */
+
+.page {
+  flex: 1;
+  padding: 24px 32px 48px;
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.viewStack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.viewHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 4px;
+}
+
+.viewHeader h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-strong);
+  letter-spacing: -0.2px;
+}
+
+.viewHeader .viewSub {
+  margin-top: 4px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.viewMeta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-faint);
+  text-align: right;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.viewMeta strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* ---------------------------------------------------------
+   KPI GRID
+   --------------------------------------------------------- */
+
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.metricCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+
+.metricCard:hover {
+  border-color: var(--aqua);
+  box-shadow: var(--shadow);
+}
+
+.metricCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--aqua);
+  opacity: 0.7;
+}
+
+.metricCard.tone-warn::before    { background: var(--warning); }
+.metricCard.tone-crit::before    { background: var(--critical); }
+.metricCard.tone-good::before    { background: var(--success); }
+.metricCard.tone-neutral::before { background: var(--text-faint); opacity: 0.5; }
+
+.metricCard .metricLabel {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-faint);
+  font-weight: 500;
+}
+
+.metricCard .metricValue {
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--text-strong);
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+  font-feature-settings: 'tnum';
+}
+
+.metricCard .metricValue .unit {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+.metricCard .metricFoot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+.metricCard .delta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.delta.up   { background: var(--success-bg); color: var(--success); }
+.delta.down { background: var(--critical-bg); color: var(--critical); }
+.delta.flat { background: var(--surface-sub); color: var(--text-muted); }
+
+/* ---------------------------------------------------------
+   CARDS / PANELS
+   --------------------------------------------------------- */
+
+.panelGrid {
+  display: grid;
+  gap: 16px;
+}
+
+.panelGrid.cols-2 { grid-template-columns: 1fr 1fr; }
+.panelGrid.cols-3 { grid-template-columns: 2fr 1fr 1fr; }
+
+@media (max-width: 1100px) {
+  .panelGrid.cols-2,
+  .panelGrid.cols-3 { grid-template-columns: 1fr; }
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.cardHead {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-soft);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cardHead h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-strong);
+  letter-spacing: -0.1px;
+}
+
+.cardHead .cardSub {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+.cardBody {
+  padding: 16px;
+}
+
+.cardBody.flush { padding: 0; }
+
+.sectionCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+/* ---------------------------------------------------------
+   TABLES
+   --------------------------------------------------------- */
+
+.dataTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.dataTable thead th {
+  background: var(--surface-alt);
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  padding: 9px 12px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.dataTable thead th.num {
+  text-align: right;
+}
+
+.dataTable tbody td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-soft);
+  color: var(--text);
+}
+
+.dataTable tbody td.num {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-feature-settings: 'tnum';
+}
+
+.dataTable tbody td.mono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.dataTable tbody tr:hover {
+  background: var(--surface-alt);
+}
+
+.dataTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.dataTable tbody tr.is-clickable {
+  cursor: pointer;
+}
+
+.matrixTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+.matrixTable th,
+.matrixTable td {
+  padding: 8px 10px;
+  border: 1px solid var(--border-soft);
+  text-align: center;
+}
+
+.matrixTable thead th {
+  background: var(--surface-alt);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-muted);
+}
+
+.matrixTable tbody th {
+  background: var(--surface-alt);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-align: left;
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* ---------------------------------------------------------
+   BADGES
+   --------------------------------------------------------- */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: var(--surface-sub);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.badge--good     { background: var(--success-bg);  color: var(--success); }
+.badge--warn     { background: var(--warning-bg);  color: var(--warning); }
+.badge--critical { background: var(--critical-bg); color: var(--critical); }
+.badge--info     { background: var(--info-bg);     color: var(--info); }
+.badge--neutral  { background: var(--surface-sub); color: var(--text-muted); }
+
+.badge .dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ---------------------------------------------------------
+   PROGRESS
+   --------------------------------------------------------- */
+
+.progress {
+  height: 6px;
+  background: var(--surface-sub);
+  border-radius: 999px;
+  overflow: hidden;
+  width: 100%;
+  min-width: 60px;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--aqua);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.progressFill.warn { background: var(--warning); }
+.progressFill.crit { background: var(--critical); }
+.progressFill.good { background: var(--success); }
+
+/* ---------------------------------------------------------
+   STACK LIST / EXCEPTION CARDS / LOAD CARDS
+   --------------------------------------------------------- */
+
+.stackList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.exceptionCard,
+.loadCard,
+.locationCard,
+.auditCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+
+.exceptionCard:hover,
+.loadCard:hover,
+.locationCard:hover,
+.auditCard:hover {
+  border-color: var(--aqua);
+  box-shadow: var(--shadow);
+}
+
+.exceptionCard {
+  border-left: 3px solid var(--warning);
+}
+
+.exceptionCard.crit {
+  border-left-color: var(--critical);
+}
+
+.exceptionCard.info {
+  border-left-color: var(--info);
+}
+
+.cardTitleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.cardTitleRow .ttl {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+.cardMeta {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+.cardMeta .meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cardMeta .meta strong {
+  color: var(--text-strong);
+  font-weight: 500;
+  font-family: var(--font-mono);
+}
+
+/* ---------------------------------------------------------
+   TIMELINE
+   --------------------------------------------------------- */
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+}
+
+.timelineItem {
+  display: flex;
+  gap: 12px;
+  position: relative;
+}
+
+.timelineItem::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 18px;
+  bottom: -12px;
+  width: 1px;
+  background: var(--border);
+}
+
+.timelineItem:last-child::before { display: none; }
+
+.timelineDot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--aqua);
+  margin-top: 4px;
+  flex-shrink: 0;
+  z-index: 1;
+  box-shadow: 0 0 0 3px var(--surface);
+}
+
+.timelineDot.warn { background: var(--warning); }
+.timelineDot.crit { background: var(--critical); }
+.timelineDot.good { background: var(--success); }
+.timelineDot.muted { background: var(--text-faint); }
+
+.timelineBody {
+  flex: 1;
+  font-size: 12.5px;
+}
+
+.timelineBody .tlTime {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.timelineBody .tlText {
+  color: var(--text);
+  margin-top: 2px;
+}
+
+/* ---------------------------------------------------------
+   EMPTY STATES (pre-fill scaffold)
+   --------------------------------------------------------- */
+
+.scaffoldNote {
+  border: 1px dashed var(--border);
+  background: var(--surface-alt);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.scaffoldNote .lbl {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--aqua-deep);
+  background: var(--aqua-soft);
+  padding: 3px 7px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------
+   POPOVER (filter dropdowns)
+   --------------------------------------------------------- */
+
+.popover {
+  position: absolute;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  min-width: 200px;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.popover .popOption {
+  padding: 8px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.popover .popOption:hover {
+  background: var(--aqua-soft);
+}
+
+.popover .popOption.is-selected {
+  background: var(--aqua-soft);
+  color: var(--aqua-deep);
+  font-weight: 500;
+}
+
+.popover .popOption .opt-meta {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-faint);
+}
+
+/* ---------------------------------------------------------
+   UTILITIES
+   --------------------------------------------------------- */
+
+.mono     { font-family: var(--font-mono); }
+.muted    { color: var(--text-muted); }
+.faint    { color: var(--text-faint); }
+.strong   { color: var(--text-strong); font-weight: 500; }
+.right    { text-align: right; }
+.tnum     { font-feature-settings: 'tnum'; }
+.flexrow  { display: flex; align-items: center; gap: 8px; }
+.spacer   { flex: 1; }
+.hidden   { display: none !important; }
+
+::-webkit-scrollbar { height: 8px; width: 8px; }
+::-webkit-scrollbar-track { background: var(--surface-alt); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-faint); }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <div class="topStripe"></div>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="heroRow">
+      <div>
+        <div class="brandWrap">
+          <div class="brandMark"></div>
+          <div>
+            <div class="eyebrow">Backhaul Direct • Latham freight operations</div>
+            <h1 class="heroTitle">Latham Freight Control Tower</h1>
+          </div>
+        </div>
+        <p class="heroSubtitle">
+          Shipment visibility, freight bill audit, FedEx parcel tracking, carrier
+          performance, and exception control by Latham shipping location.
+        </p>
+      </div>
+      <div class="pillRow">
+        <span class="pill"><span class="dot"></span>SunnyBrook TMS</span>
+        <span class="pill"><span class="dot"></span>FedEx API</span>
+        <span class="pill warn"><span class="dot"></span>EDI 210 lag</span>
+        <span class="pill"><span class="dot"></span>Excel intake</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- TAB BAR -->
+  <nav class="tabbar" id="tabbar"></nav>
+
+  <!-- FILTER ROW -->
+  <div class="filterRow" id="filterRow"></div>
+
+  <!-- ACTIVE LOCATION BANNER -->
+  <div class="locationBanner hidden" id="locationBanner">
+    <span class="label">Filtered by location</span>
+    <span id="locationBannerName"></span>
+    <span class="mono faint" id="locationBannerCode"></span>
+    <span class="clearLoc" onclick="clearLocationFilter()">Clear location filter</span>
+  </div>
+
+  <!-- PAGE -->
+  <main class="page">
+    <div class="viewStack" id="viewStack"></div>
+  </main>
+
+</div>
+
+<!-- Popover layer for filter dropdowns -->
+<div id="popoverLayer"></div>
+
+<script>
+/* =========================================================
+   LATHAM FREIGHT CONTROL TOWER — APP CODE
+   PART 1: shell, nav, filters, views.
+   PART 2: full domain model — enums, interfaces, seeds.
+   ========================================================= */
+
+/* =========================================================
+   PART 2 — DOMAIN MODEL (mirrors types/latham-control-tower.ts)
+   --------------------------------------------------------- */
+
+/* ---------- ENUMS (frozen for safety) ---------- */
+
+const Mode = Object.freeze({
+  TL: 'TL', LTL: 'LTL', FLATBED: 'FLATBED',
+  PARCEL: 'PARCEL', FLEET: 'FLEET', INTERMODAL: 'INTERMODAL', OTHER: 'OTHER'
+});
+const ModeLabel = {
+  [Mode.TL]: 'TL', [Mode.LTL]: 'LTL', [Mode.FLATBED]: 'Flatbed',
+  [Mode.PARCEL]: 'Parcel', [Mode.FLEET]: 'Fleet',
+  [Mode.INTERMODAL]: 'Intermodal', [Mode.OTHER]: 'Other'
+};
+
+const SourceSystem = Object.freeze({
+  EXCEL_DROP: 'EXCEL_DROP',
+  SUNNYBROOK_TMS: 'SUNNYBROOK_TMS',
+  SUNNYBROOK_EDI: 'SUNNYBROOK_EDI',
+  FEDEX_API: 'FEDEX_API',
+  FEDEX_WEBHOOK: 'FEDEX_WEBHOOK',
+  AUDIT_FILE: 'AUDIT_FILE',
+  MANUAL: 'MANUAL',
+  MOCK: 'MOCK'
+});
+const SourceSystemLabel = {
+  [SourceSystem.EXCEL_DROP]:     'Excel drop',
+  [SourceSystem.SUNNYBROOK_TMS]: 'SunnyBrook TMS',
+  [SourceSystem.SUNNYBROOK_EDI]: 'SunnyBrook EDI',
+  [SourceSystem.FEDEX_API]:      'FedEx API',
+  [SourceSystem.FEDEX_WEBHOOK]:  'FedEx webhook',
+  [SourceSystem.AUDIT_FILE]:     'Audit file',
+  [SourceSystem.MANUAL]:         'Manual',
+  [SourceSystem.MOCK]:           'Mock'
+};
+
+const ShipmentStatus = Object.freeze({
+  PLANNED: 'PLANNED', TENDERED: 'TENDERED', ACCEPTED: 'ACCEPTED',
+  PICKED_UP: 'PICKED_UP', IN_TRANSIT: 'IN_TRANSIT',
+  OUT_FOR_DELIVERY: 'OUT_FOR_DELIVERY', DELIVERED: 'DELIVERED',
+  CLOSED: 'CLOSED', EXCEPTION: 'EXCEPTION', CANCELLED: 'CANCELLED'
+});
+const ShipmentStatusLabel = {
+  [ShipmentStatus.PLANNED]:'Planned', [ShipmentStatus.TENDERED]:'Tendered',
+  [ShipmentStatus.ACCEPTED]:'Accepted', [ShipmentStatus.PICKED_UP]:'Picked up',
+  [ShipmentStatus.IN_TRANSIT]:'In transit',
+  [ShipmentStatus.OUT_FOR_DELIVERY]:'Out for delivery',
+  [ShipmentStatus.DELIVERED]:'Delivered', [ShipmentStatus.CLOSED]:'Closed',
+  [ShipmentStatus.EXCEPTION]:'Exception', [ShipmentStatus.CANCELLED]:'Cancelled'
+};
+
+const AuditStatus = Object.freeze({
+  NOT_AUDITED: 'NOT_AUDITED', MATCHED: 'MATCHED', VARIANCE: 'VARIANCE',
+  DUPLICATE: 'DUPLICATE', RATE_MISMATCH: 'RATE_MISMATCH',
+  ACCESSORIAL_REVIEW: 'ACCESSORIAL_REVIEW', DISPUTED: 'DISPUTED',
+  SHORT_PAID: 'SHORT_PAID', APPROVED: 'APPROVED', RECOVERED: 'RECOVERED'
+});
+const AuditStatusLabel = {
+  [AuditStatus.NOT_AUDITED]:'Not audited', [AuditStatus.MATCHED]:'Matched',
+  [AuditStatus.VARIANCE]:'Variance', [AuditStatus.DUPLICATE]:'Duplicate',
+  [AuditStatus.RATE_MISMATCH]:'Rate mismatch',
+  [AuditStatus.ACCESSORIAL_REVIEW]:'Accessorial review',
+  [AuditStatus.DISPUTED]:'Disputed', [AuditStatus.SHORT_PAID]:'Short-paid',
+  [AuditStatus.APPROVED]:'Approved', [AuditStatus.RECOVERED]:'Recovered'
+};
+
+const InvoiceStatus = Object.freeze({
+  RECEIVED: 'RECEIVED', MATCHED: 'MATCHED', UNMATCHED: 'UNMATCHED',
+  DISPUTED: 'DISPUTED', APPROVED: 'APPROVED', PAID: 'PAID',
+  SHORT_PAID: 'SHORT_PAID'
+});
+const InvoiceStatusLabel = {
+  [InvoiceStatus.RECEIVED]:'Received', [InvoiceStatus.MATCHED]:'Matched',
+  [InvoiceStatus.UNMATCHED]:'Unmatched', [InvoiceStatus.DISPUTED]:'Disputed',
+  [InvoiceStatus.APPROVED]:'Approved', [InvoiceStatus.PAID]:'Paid',
+  [InvoiceStatus.SHORT_PAID]:'Short-paid'
+};
+
+const ParcelStatus = Object.freeze({
+  LABEL_CREATED: 'LABEL_CREATED', PICKED_UP: 'PICKED_UP',
+  IN_TRANSIT: 'IN_TRANSIT', OUT_FOR_DELIVERY: 'OUT_FOR_DELIVERY',
+  DELIVERED: 'DELIVERED', DELIVERY_EXCEPTION: 'DELIVERY_EXCEPTION',
+  VOIDED: 'VOIDED', UNKNOWN: 'UNKNOWN'
+});
+const ParcelStatusLabel = {
+  [ParcelStatus.LABEL_CREATED]:'Label created',
+  [ParcelStatus.PICKED_UP]:'Picked up', [ParcelStatus.IN_TRANSIT]:'In transit',
+  [ParcelStatus.OUT_FOR_DELIVERY]:'Out for delivery',
+  [ParcelStatus.DELIVERED]:'Delivered',
+  [ParcelStatus.DELIVERY_EXCEPTION]:'Delivery exception',
+  [ParcelStatus.VOIDED]:'Voided', [ParcelStatus.UNKNOWN]:'Unknown'
+};
+
+const ClaimStatus = Object.freeze({
+  CREATED: 'CREATED', SUBMITTED: 'SUBMITTED', ACKNOWLEDGED: 'ACKNOWLEDGED',
+  OPEN: 'OPEN', PAID: 'PAID', DENIED: 'DENIED', CLOSED: 'CLOSED',
+  MISSING_BACKUP: 'MISSING_BACKUP'
+});
+const ClaimStatusLabel = {
+  [ClaimStatus.CREATED]:'Created', [ClaimStatus.SUBMITTED]:'Submitted',
+  [ClaimStatus.ACKNOWLEDGED]:'Acknowledged', [ClaimStatus.OPEN]:'Open',
+  [ClaimStatus.PAID]:'Paid', [ClaimStatus.DENIED]:'Denied',
+  [ClaimStatus.CLOSED]:'Closed', [ClaimStatus.MISSING_BACKUP]:'Missing backup'
+};
+
+const Severity = Object.freeze({
+  SEV1: 'SEV1', SEV2: 'SEV2', SEV3: 'SEV3', INFO: 'INFO'
+});
+const SeverityLabel = {
+  [Severity.SEV1]:'Sev 1', [Severity.SEV2]:'Sev 2',
+  [Severity.SEV3]:'Sev 3', [Severity.INFO]:'Info'
+};
+const SeverityBadgeClass = {
+  [Severity.SEV1]:'badge--critical', [Severity.SEV2]:'badge--warn',
+  [Severity.SEV3]:'badge--info',     [Severity.INFO]:'badge--neutral'
+};
+
+const ExceptionStatus = Object.freeze({
+  OPEN: 'OPEN', ACKNOWLEDGED: 'ACKNOWLEDGED', IN_PROGRESS: 'IN_PROGRESS',
+  WAITING_ON_CARRIER: 'WAITING_ON_CARRIER',
+  WAITING_ON_LATHAM: 'WAITING_ON_LATHAM',
+  RECOVERED: 'RECOVERED', CLOSED: 'CLOSED'
+});
+const ExceptionStatusLabel = {
+  [ExceptionStatus.OPEN]:'Open',
+  [ExceptionStatus.ACKNOWLEDGED]:'Acknowledged',
+  [ExceptionStatus.IN_PROGRESS]:'In progress',
+  [ExceptionStatus.WAITING_ON_CARRIER]:'Waiting on carrier',
+  [ExceptionStatus.WAITING_ON_LATHAM]:'Waiting on Latham',
+  [ExceptionStatus.RECOVERED]:'Recovered',
+  [ExceptionStatus.CLOSED]:'Closed'
+};
+
+const ExceptionType = Object.freeze({
+  LATE_DELIVERY_RISK: 'LATE_DELIVERY_RISK',
+  MISSED_PICKUP: 'MISSED_PICKUP',
+  MISSING_TRACKING: 'MISSING_TRACKING',
+  STALE_TRACKING: 'STALE_TRACKING',
+  FEDEX_DELIVERY_EXCEPTION: 'FEDEX_DELIVERY_EXCEPTION',
+  INVOICE_VARIANCE: 'INVOICE_VARIANCE',
+  DUPLICATE_INVOICE: 'DUPLICATE_INVOICE',
+  RATE_MISMATCH: 'RATE_MISMATCH',
+  ACCESSORIAL_LEAKAGE: 'ACCESSORIAL_LEAKAGE',
+  MISSING_INVOICE: 'MISSING_INVOICE',
+  UNMATCHED_SHIPMENT: 'UNMATCHED_SHIPMENT',
+  CLAIM_DEADLINE_RISK: 'CLAIM_DEADLINE_RISK',
+  CLAIM_MISSING_BACKUP: 'CLAIM_MISSING_BACKUP',
+  DAMAGE_OSD: 'DAMAGE_OSD',
+  CARRIER_SCORE_DROP: 'CARRIER_SCORE_DROP',
+  LANE_COST_SPIKE: 'LANE_COST_SPIKE',
+  OVERSIZE_PERMIT_MISSING: 'OVERSIZE_PERMIT_MISSING',
+  FLATBED_CAPACITY_RISK: 'FLATBED_CAPACITY_RISK',
+  DATA_QUALITY: 'DATA_QUALITY',
+  UNOWNED_EXCEPTION: 'UNOWNED_EXCEPTION'
+});
+const ExceptionTypeLabel = {
+  [ExceptionType.LATE_DELIVERY_RISK]:'Late-delivery risk',
+  [ExceptionType.MISSED_PICKUP]:'Missed pickup',
+  [ExceptionType.MISSING_TRACKING]:'Missing tracking',
+  [ExceptionType.STALE_TRACKING]:'Stale tracking',
+  [ExceptionType.FEDEX_DELIVERY_EXCEPTION]:'FedEx delivery exception',
+  [ExceptionType.INVOICE_VARIANCE]:'Invoice variance',
+  [ExceptionType.DUPLICATE_INVOICE]:'Duplicate invoice',
+  [ExceptionType.RATE_MISMATCH]:'Rate mismatch',
+  [ExceptionType.ACCESSORIAL_LEAKAGE]:'Accessorial leakage',
+  [ExceptionType.MISSING_INVOICE]:'Missing invoice',
+  [ExceptionType.UNMATCHED_SHIPMENT]:'Unmatched shipment',
+  [ExceptionType.CLAIM_DEADLINE_RISK]:'Claim deadline risk',
+  [ExceptionType.CLAIM_MISSING_BACKUP]:'Claim missing backup',
+  [ExceptionType.DAMAGE_OSD]:'Damage / OS&D',
+  [ExceptionType.CARRIER_SCORE_DROP]:'Carrier score drop',
+  [ExceptionType.LANE_COST_SPIKE]:'Lane cost spike',
+  [ExceptionType.OVERSIZE_PERMIT_MISSING]:'Oversize permit missing',
+  [ExceptionType.FLATBED_CAPACITY_RISK]:'Flatbed capacity risk',
+  [ExceptionType.DATA_QUALITY]:'Data quality',
+  [ExceptionType.UNOWNED_EXCEPTION]:'Unowned exception'
+};
+
+const IntegrationConnState = Object.freeze({
+  CONNECTED: 'CONNECTED', MOCKED: 'MOCKED',
+  DEGRADED: 'DEGRADED', NOT_CONNECTED: 'NOT_CONNECTED'
+});
+const IntegrationConnLabel = {
+  [IntegrationConnState.CONNECTED]:'Connected',
+  [IntegrationConnState.MOCKED]:'Mocked',
+  [IntegrationConnState.DEGRADED]:'Degraded',
+  [IntegrationConnState.NOT_CONNECTED]:'Not connected'
+};
+const IntegrationBadgeClass = {
+  [IntegrationConnState.CONNECTED]:'badge--good',
+  [IntegrationConnState.MOCKED]:'badge--info',
+  [IntegrationConnState.DEGRADED]:'badge--warn',
+  [IntegrationConnState.NOT_CONNECTED]:'badge--critical'
+};
+
+const CustomerLocationType = Object.freeze({
+  DEALER: 'DEALER', CUSTOMER: 'CUSTOMER', JOBSITE: 'JOBSITE',
+  DISTRIBUTOR: 'DISTRIBUTOR', OTHER: 'OTHER'
+});
+
+const LocationType = Object.freeze({
+  DC: 'DC', PLANT: 'PLANT', BRANCH: 'BRANCH', YARD: 'YARD'
+});
+
+/* ---------- INTERFACE TYPEDEFS (JSDoc; doc-only at runtime) ----------
+ * @typedef {Object} ShippingLocation
+ * @property {string} id
+ * @property {string} code
+ * @property {string} name
+ * @property {string} city
+ * @property {string} state
+ * @property {string} region
+ * @property {string} timezone
+ * @property {boolean} isActive
+ * @property {string} locationType
+ * @property {number} openShipmentCount
+ * @property {number} openExceptionCount
+ * @property {number} currentSpend
+ * @property {number} auditVarianceDollars
+ * @property {number} onTimeDeliveryPct
+ * @property {number} dataConfidence
+ * @property {string} lastDataRefreshAt
+ *
+ * @typedef {Object} Carrier
+ * @property {string} id
+ * @property {string} name
+ * @property {string} scac
+ * @property {string[]} modeCapabilities
+ * @property {string=} mcNumber
+ * @property {string=} dotNumber
+ * @property {string} status
+ * @property {number} score
+ * @property {number} billingAccuracyPct
+ * @property {number} onTimePickupPct
+ * @property {number} onTimeDeliveryPct
+ * @property {number} claimRatePct
+ * @property {number} accessorialPct
+ * @property {string} sourceSystem
+ *
+ * @typedef {Object} Lane
+ * @property {string} id
+ * @property {string} originShippingLocationId
+ * @property {string} destinationLocationId
+ * @property {string} originCity
+ * @property {string} originState
+ * @property {string} destinationCity
+ * @property {string} destinationState
+ * @property {string} mode
+ * @property {number} standardTransitDays
+ * @property {string=} contractedCarrierId
+ * @property {number=} targetCostPerShipment
+ * @property {number=} targetCostPerMile
+ *
+ * @typedef {Object} Shipment
+ *   See Part 2 spec — all fields populated in SHIPMENTS_SEED.
+ *
+ * @typedef {Object} Invoice
+ *   See Part 2 spec — all fields populated in INVOICES_SEED.
+ *
+ * @typedef {Object} AuditException
+ * @typedef {Object} Claim
+ * @typedef {Object} ParcelPackage
+ * @typedef {Object} ActionItem
+ * @typedef {Object} TrackingEvent
+ * @typedef {Object} IntegrationStatus
+ * @typedef {Object} UploadBatch
+ * @typedef {Object} DashboardModel
+ */
+
+/* ---------- DERIVATIONS ----------
+ * Part 2's ShipmentStatus enum has no "AT_RISK" — it's a derived state.
+ * A shipment is at-risk when riskScore >= 70 OR etaConfidenceScore <= 0.6
+ * AND the shipment is not yet DELIVERED/CLOSED/CANCELLED.
+ */
+function isShipmentAtRisk(s) {
+  const terminal = [ShipmentStatus.DELIVERED, ShipmentStatus.CLOSED, ShipmentStatus.CANCELLED];
+  if (terminal.includes(s.status)) return false;
+  return (s.riskScore >= 70) || (s.etaConfidenceScore != null && s.etaConfidenceScore <= 0.6);
+}
+
+/* =========================================================
+   SEED DATA — fully populated against the Part 2 interfaces
+   --------------------------------------------------------- */
+
+const SHIPPING_LOCATIONS = [
+  { id: 'LTH-LOC-001', code: 'LTH-001', name: 'Latham Shipping Location 1',
+    city: 'Latham A', state: 'XX', region: 'Northeast', timezone: 'America/New_York',
+    isActive: true, locationType: LocationType.DC,
+    openShipmentCount: 84,  openExceptionCount: 3,  currentSpend: 482300,
+    auditVarianceDollars: 4220, onTimeDeliveryPct: 0.946, dataConfidence: 0.97,
+    lastDataRefreshAt: '2026-04-29T07:42',
+    /* legacy shim */ healthScore: 92 },
+  { id: 'LTH-LOC-002', code: 'LTH-002', name: 'Latham Shipping Location 2',
+    city: 'Latham B', state: 'XX', region: 'Northeast', timezone: 'America/New_York',
+    isActive: true, locationType: LocationType.DC,
+    openShipmentCount: 62,  openExceptionCount: 8,  currentSpend: 318900,
+    auditVarianceDollars: 11840, onTimeDeliveryPct: 0.881, dataConfidence: 0.92,
+    lastDataRefreshAt: '2026-04-29T07:38',
+    healthScore: 78 },
+  { id: 'LTH-LOC-003', code: 'LTH-003', name: 'Latham Shipping Location 3',
+    city: 'Latham C', state: 'XX', region: 'Midwest', timezone: 'America/Chicago',
+    isActive: true, locationType: LocationType.PLANT,
+    openShipmentCount: 71,  openExceptionCount: 4,  currentSpend: 402100,
+    auditVarianceDollars: 2310, onTimeDeliveryPct: 0.918, dataConfidence: 0.95,
+    lastDataRefreshAt: '2026-04-29T07:40',
+    healthScore: 84 },
+  { id: 'LTH-LOC-004', code: 'LTH-004', name: 'Latham Shipping Location 4',
+    city: 'Latham D', state: 'XX', region: 'Midwest', timezone: 'America/Chicago',
+    isActive: true, locationType: LocationType.BRANCH,
+    openShipmentCount: 49,  openExceptionCount: 12, currentSpend: 211400,
+    auditVarianceDollars: 18620, onTimeDeliveryPct: 0.812, dataConfidence: 0.84,
+    lastDataRefreshAt: '2026-04-29T06:55',
+    healthScore: 64 },
+  { id: 'LTH-LOC-005', code: 'LTH-005', name: 'Latham Shipping Location 5',
+    city: 'Latham E', state: 'XX', region: 'Southeast', timezone: 'America/New_York',
+    isActive: true, locationType: LocationType.DC,
+    openShipmentCount: 58,  openExceptionCount: 2,  currentSpend: 296800,
+    auditVarianceDollars: 1180, onTimeDeliveryPct: 0.939, dataConfidence: 0.96,
+    lastDataRefreshAt: '2026-04-29T07:36',
+    healthScore: 88 },
+  { id: 'LTH-LOC-006', code: 'LTH-006', name: 'Latham Shipping Location 6',
+    city: 'Latham F', state: 'XX', region: 'West', timezone: 'America/Los_Angeles',
+    isActive: true, locationType: LocationType.YARD,
+    openShipmentCount: 40,  openExceptionCount: 6,  currentSpend: 178200,
+    auditVarianceDollars: 5430, onTimeDeliveryPct: 0.864, dataConfidence: 0.88,
+    lastDataRefreshAt: '2026-04-29T07:20',
+    healthScore: 71 },
+];
+
+/* ---------- Carriers ---------- */
+const CARRIERS_SEED = [
+  { id: 'C-FDX', name: 'FedEx',        scac: 'FDXG', modeCapabilities: [Mode.PARCEL],
+    mcNumber: '—', dotNumber: '273020', status: 'ACTIVE', score: 94,
+    billingAccuracyPct: 0.991, onTimePickupPct: 0.972, onTimeDeliveryPct: 0.962,
+    claimRatePct: 0.004, accessorialPct: 0.182, sourceSystem: SourceSystem.FEDEX_API },
+  { id: 'C-KNX', name: 'Knight-Swift', scac: 'KNGT', modeCapabilities: [Mode.TL],
+    mcNumber: 'MC-378401', dotNumber: '925805', status: 'ACTIVE', score: 81,
+    billingAccuracyPct: 0.952, onTimePickupPct: 0.901, onTimeDeliveryPct: 0.881,
+    claimRatePct: 0.012, accessorialPct: 0.214, sourceSystem: SourceSystem.SUNNYBROOK_TMS },
+  { id: 'C-ODF', name: 'Old Dominion', scac: 'ODFL', modeCapabilities: [Mode.LTL],
+    mcNumber: 'MC-127719', dotNumber: '88010', status: 'ACTIVE', score: 92,
+    billingAccuracyPct: 0.984, onTimePickupPct: 0.961, onTimeDeliveryPct: 0.948,
+    claimRatePct: 0.006, accessorialPct: 0.149, sourceSystem: SourceSystem.SUNNYBROOK_EDI },
+  { id: 'C-XPO', name: 'XPO',          scac: 'XPOL', modeCapabilities: [Mode.LTL, Mode.FLATBED],
+    mcNumber: 'MC-211019', dotNumber: '459394', status: 'ACTIVE', score: 76,
+    billingAccuracyPct: 0.948, onTimePickupPct: 0.872, onTimeDeliveryPct: 0.842,
+    claimRatePct: 0.014, accessorialPct: 0.231, sourceSystem: SourceSystem.SUNNYBROOK_TMS },
+  { id: 'C-EST', name: 'Estes',        scac: 'EXLA', modeCapabilities: [Mode.LTL],
+    mcNumber: 'MC-105764', dotNumber: '57837', status: 'ACTIVE', score: 88,
+    billingAccuracyPct: 0.971, onTimePickupPct: 0.941, onTimeDeliveryPct: 0.926,
+    claimRatePct: 0.007, accessorialPct: 0.171, sourceSystem: SourceSystem.SUNNYBROOK_EDI },
+  { id: 'C-SAI', name: 'Saia',         scac: 'SAIA', modeCapabilities: [Mode.LTL],
+    mcNumber: 'MC-110501', dotNumber: '76101',  status: 'ACTIVE', score: 86,
+    billingAccuracyPct: 0.968, onTimePickupPct: 0.928, onTimeDeliveryPct: 0.911,
+    claimRatePct: 0.008, accessorialPct: 0.187, sourceSystem: SourceSystem.SUNNYBROOK_EDI },
+];
+
+/* ---------- Lanes ---------- */
+const LANES_SEED = [
+  { id: 'LN-001', originShippingLocationId: 'LTH-LOC-001', destinationLocationId: 'CUST-NYC',
+    originCity: 'Latham A', originState: 'XX', destinationCity: 'New York', destinationState: 'NY',
+    mode: Mode.LTL, standardTransitDays: 2, contractedCarrierId: 'C-ODF',
+    targetCostPerShipment: 412, targetCostPerMile: 2.40 },
+  { id: 'LN-002', originShippingLocationId: 'LTH-LOC-002', destinationLocationId: 'CUST-BOS',
+    originCity: 'Latham B', originState: 'XX', destinationCity: 'Boston', destinationState: 'MA',
+    mode: Mode.TL, standardTransitDays: 1, contractedCarrierId: 'C-KNX',
+    targetCostPerShipment: 1820, targetCostPerMile: 2.85 },
+  { id: 'LN-003', originShippingLocationId: 'LTH-LOC-003', destinationLocationId: 'CUST-CHI',
+    originCity: 'Latham C', originState: 'XX', destinationCity: 'Chicago', destinationState: 'IL',
+    mode: Mode.TL, standardTransitDays: 2, contractedCarrierId: 'C-EST',
+    targetCostPerShipment: 1640, targetCostPerMile: 2.55 },
+  { id: 'LN-004', originShippingLocationId: 'LTH-LOC-006', destinationLocationId: 'CUST-LAX',
+    originCity: 'Latham F', originState: 'XX', destinationCity: 'Los Angeles', destinationState: 'CA',
+    mode: Mode.FLATBED, standardTransitDays: 4, contractedCarrierId: 'C-XPO',
+    targetCostPerShipment: 3200, targetCostPerMile: 3.10 },
+];
+
+/* ---------- Customer locations (drop points) ---------- */
+const CUSTOMER_LOCATIONS_SEED = [
+  { id: 'CUST-NYC', name: 'NYC Dealer Hub',   city: 'New York',    state: 'NY', postalCode: '10001', type: CustomerLocationType.DEALER },
+  { id: 'CUST-BOS', name: 'Boston Customer',  city: 'Boston',      state: 'MA', postalCode: '02108', type: CustomerLocationType.CUSTOMER },
+  { id: 'CUST-CHI', name: 'Chicago Distrib.', city: 'Chicago',     state: 'IL', postalCode: '60601', type: CustomerLocationType.DISTRIBUTOR },
+  { id: 'CUST-LAX', name: 'LA Jobsite',       city: 'Los Angeles', state: 'CA', postalCode: '90001', type: CustomerLocationType.JOBSITE },
+  { id: 'CUST-ATL', name: 'Atlanta Customer', city: 'Atlanta',     state: 'GA', postalCode: '30301', type: CustomerLocationType.CUSTOMER },
+];
+
+/* ---------- Shipments (full Part 2 shape) ---------- */
+const SHIPMENTS_SEED = [
+  { id: 'LTH-SHP-104221', shipmentNumber: 'SHP-104221', orderNumber: 'PO-77810',
+    bolNumber: 'BOL-29401', proNumber: 'PRO-991823', trackingNumber: null,
+    mode: Mode.TL, status: ShipmentStatus.IN_TRANSIT, sourceSystem: SourceSystem.SUNNYBROOK_TMS,
+    shippingLocationId: 'LTH-LOC-002', originCity: 'Latham B', originState: 'XX',
+    destinationName: 'Boston Customer', destinationCity: 'Boston', destinationState: 'MA',
+    destinationPostalCode: '02108', carrierId: 'C-KNX', laneId: 'LN-002',
+    plannedPickupAt: '2026-04-28T08:00', actualPickupAt: '2026-04-28T11:14',
+    plannedDeliveryAt: '2026-04-29T14:00', estimatedDeliveryAt: '2026-04-29T20:00',
+    actualDeliveryAt: null, serviceLevel: 'STD', equipmentType: '53 dry van',
+    oversizeFlag: false, permitRequired: false, permitStatus: null,
+    weight: 38400, pieces: 22, pallets: 22, miles: 168,
+    costEstimate: 1820, billedAmount: null, invoiceId: null, claimId: null,
+    fedexTrackingNumber: null,
+    riskScore: 78, etaConfidenceScore: 0.55, dataConfidence: 0.94,
+    owner: 'D. Moll', nextAction: 'Contact KNX dispatcher — ETA slipping 6h',
+    activeExceptionIds: ['EX-5012'] },
+
+  { id: 'LTH-SHP-104233', shipmentNumber: 'SHP-104233', orderNumber: 'PO-77822',
+    bolNumber: 'BOL-29415', proNumber: 'PRO-991840', trackingNumber: null,
+    mode: Mode.LTL, status: ShipmentStatus.IN_TRANSIT, sourceSystem: SourceSystem.SUNNYBROOK_EDI,
+    shippingLocationId: 'LTH-LOC-004', originCity: 'Latham D', originState: 'XX',
+    destinationName: 'Chicago Distrib.', destinationCity: 'Chicago', destinationState: 'IL',
+    destinationPostalCode: '60601', carrierId: 'C-ODF', laneId: 'LN-003',
+    plannedPickupAt: '2026-04-28T13:00', actualPickupAt: '2026-04-28T13:08',
+    plannedDeliveryAt: '2026-04-30T17:00', estimatedDeliveryAt: '2026-04-30T16:30',
+    actualDeliveryAt: null, serviceLevel: 'STD', equipmentType: '28 pup',
+    oversizeFlag: false, permitRequired: false, permitStatus: null,
+    weight: 4200, pieces: 6, pallets: 6, miles: 92,
+    costEstimate: 612, billedAmount: null, invoiceId: null, claimId: null,
+    fedexTrackingNumber: null,
+    riskScore: 22, etaConfidenceScore: 0.92, dataConfidence: 0.99,
+    owner: null, nextAction: 'On track',
+    activeExceptionIds: [] },
+
+  { id: 'LTH-SHP-104241', shipmentNumber: 'SHP-104241', orderNumber: 'PO-77831',
+    bolNumber: null, proNumber: null, trackingNumber: '7724 9011 2345',
+    mode: Mode.PARCEL, status: ShipmentStatus.EXCEPTION, sourceSystem: SourceSystem.FEDEX_API,
+    shippingLocationId: 'LTH-LOC-001', originCity: 'Latham A', originState: 'XX',
+    destinationName: 'NYC Dealer Hub', destinationCity: 'New York', destinationState: 'NY',
+    destinationPostalCode: '10001', carrierId: 'C-FDX', laneId: 'LN-001',
+    plannedPickupAt: '2026-04-28T15:00', actualPickupAt: '2026-04-28T15:22',
+    plannedDeliveryAt: '2026-04-29T12:00', estimatedDeliveryAt: '2026-04-30T12:00',
+    actualDeliveryAt: null, serviceLevel: 'FedEx 2Day', equipmentType: 'Parcel',
+    oversizeFlag: false, permitRequired: false, permitStatus: null,
+    weight: 18, pieces: 1, pallets: null, miles: 165,
+    costEstimate: 89.22, billedAmount: 89.22, invoiceId: 'INV-882210', claimId: null,
+    fedexTrackingNumber: '7724 9011 2345',
+    riskScore: 88, etaConfidenceScore: 0.30, dataConfidence: 0.98,
+    owner: 'Parcel Desk', nextAction: 'Initiate trace + customer alert',
+    activeExceptionIds: ['EX-5021'] },
+
+  { id: 'LTH-SHP-104255', shipmentNumber: 'SHP-104255', orderNumber: 'PO-77845',
+    bolNumber: 'BOL-29488', proNumber: null, trackingNumber: null,
+    mode: Mode.FLATBED, status: ShipmentStatus.PICKED_UP, sourceSystem: SourceSystem.EXCEL_DROP,
+    shippingLocationId: 'LTH-LOC-006', originCity: 'Latham F', originState: 'XX',
+    destinationName: 'LA Jobsite', destinationCity: 'Los Angeles', destinationState: 'CA',
+    destinationPostalCode: '90001', carrierId: 'C-XPO', laneId: 'LN-004',
+    plannedPickupAt: '2026-04-28T07:00', actualPickupAt: '2026-04-28T09:11',
+    plannedDeliveryAt: '2026-05-02T17:00', estimatedDeliveryAt: '2026-05-02T19:00',
+    actualDeliveryAt: null, serviceLevel: 'STD', equipmentType: '48 step deck',
+    oversizeFlag: true, permitRequired: true, permitStatus: 'MISSING',
+    weight: 41200, pieces: 1, pallets: null, miles: 1182,
+    costEstimate: 3650, billedAmount: null, invoiceId: null, claimId: null,
+    fedexTrackingNumber: null,
+    riskScore: 62, etaConfidenceScore: 0.55, dataConfidence: 0.81,
+    owner: 'Loc 6 Clerk', nextAction: 'Verify oversize permit status',
+    activeExceptionIds: ['EX-5034'] },
+
+  { id: 'LTH-SHP-104260', shipmentNumber: 'SHP-104260', orderNumber: 'PO-77858',
+    bolNumber: 'BOL-29501', proNumber: 'PRO-991901', trackingNumber: null,
+    mode: Mode.TL, status: ShipmentStatus.DELIVERED, sourceSystem: SourceSystem.SUNNYBROOK_TMS,
+    shippingLocationId: 'LTH-LOC-003', originCity: 'Latham C', originState: 'XX',
+    destinationName: 'Atlanta Customer', destinationCity: 'Atlanta', destinationState: 'GA',
+    destinationPostalCode: '30301', carrierId: 'C-EST', laneId: null,
+    plannedPickupAt: '2026-04-25T08:00', actualPickupAt: '2026-04-25T08:04',
+    plannedDeliveryAt: '2026-04-27T17:00', estimatedDeliveryAt: '2026-04-27T17:00',
+    actualDeliveryAt: '2026-04-27T16:42', serviceLevel: 'STD', equipmentType: '53 dry van',
+    oversizeFlag: false, permitRequired: false, permitStatus: null,
+    weight: 36100, pieces: 18, pallets: 18, miles: 720,
+    costEstimate: 1640, billedAmount: 1612.50, invoiceId: 'INV-882198', claimId: null,
+    fedexTrackingNumber: null,
+    riskScore: 8, etaConfidenceScore: 1.00, dataConfidence: 1.00,
+    owner: null, nextAction: null,
+    activeExceptionIds: [] },
+
+  { id: 'LTH-SHP-104271', shipmentNumber: 'SHP-104271', orderNumber: 'PO-77869',
+    bolNumber: 'BOL-29512', proNumber: 'PRO-991915', trackingNumber: null,
+    mode: Mode.LTL, status: ShipmentStatus.PLANNED, sourceSystem: SourceSystem.SUNNYBROOK_TMS,
+    shippingLocationId: 'LTH-LOC-005', originCity: 'Latham E', originState: 'XX',
+    destinationName: 'Atlanta Customer', destinationCity: 'Atlanta', destinationState: 'GA',
+    destinationPostalCode: '30301', carrierId: 'C-SAI', laneId: null,
+    plannedPickupAt: '2026-04-30T10:00', actualPickupAt: null,
+    plannedDeliveryAt: '2026-05-02T17:00', estimatedDeliveryAt: '2026-05-02T16:00',
+    actualDeliveryAt: null, serviceLevel: 'STD', equipmentType: 'LTL',
+    oversizeFlag: false, permitRequired: false, permitStatus: null,
+    weight: 2800, pieces: 4, pallets: 4, miles: 412,
+    costEstimate: 538, billedAmount: null, invoiceId: null, claimId: null,
+    fedexTrackingNumber: null,
+    riskScore: 18, etaConfidenceScore: 0.95, dataConfidence: 0.96,
+    owner: null, nextAction: 'Awaiting pickup',
+    activeExceptionIds: [] },
+];
+
+/* ---------- Tracking events ---------- */
+const TRACKING_EVENTS_SEED = [
+  { id: 'TE-1', shipmentId: 'LTH-SHP-104221', sourceSystem: SourceSystem.SUNNYBROOK_TMS,
+    trackingNumber: null, eventCode: 'PU', eventDescription: 'Picked up by carrier',
+    eventCity: 'Latham B', eventState: 'XX', eventTimestamp: '2026-04-28T11:14',
+    estimatedDeliveryAt: '2026-04-29T14:00', signedBy: null,
+    proofOfDeliveryAvailable: false, exceptionFlag: false },
+  { id: 'TE-2', shipmentId: 'LTH-SHP-104221', sourceSystem: SourceSystem.SUNNYBROOK_TMS,
+    trackingNumber: null, eventCode: 'IT', eventDescription: 'In transit — driver delay reported',
+    eventCity: 'Albany', eventState: 'NY', eventTimestamp: '2026-04-29T03:40',
+    estimatedDeliveryAt: '2026-04-29T20:00', signedBy: null,
+    proofOfDeliveryAvailable: false, exceptionFlag: true },
+  { id: 'TE-3', shipmentId: 'LTH-SHP-104241', sourceSystem: SourceSystem.FEDEX_WEBHOOK,
+    trackingNumber: '7724 9011 2345', eventCode: 'DE', eventDescription: 'Delivery exception — address',
+    eventCity: 'New York', eventState: 'NY', eventTimestamp: '2026-04-29T08:14',
+    estimatedDeliveryAt: '2026-04-30T12:00', signedBy: null,
+    proofOfDeliveryAvailable: false, exceptionFlag: true },
+];
+
+/* ---------- Invoices ---------- */
+const INVOICES_SEED = [
+  { id: 'INV-882104', invoiceNumber: 'KNX-882104', carrierId: 'C-KNX',
+    shipmentId: 'LTH-SHP-104221', shippingLocationId: 'LTH-LOC-002',
+    mode: Mode.TL, sourceSystem: SourceSystem.SUNNYBROOK_TMS,
+    invoiceDate: '2026-04-28', receivedDate: '2026-04-29',
+    billedAmount: 4283.50, expectedAmount: 3671.50, varianceAmount: 612.00,
+    fuelAmount: 392.10, accessorialAmount: 612.00, baseFreightAmount: 3279.40,
+    status: InvoiceStatus.UNMATCHED, auditStatus: AuditStatus.ACCESSORIAL_REVIEW,
+    auditReason: 'Detention billed without driver-log support',
+    duplicateFlag: false, disputeAmount: 612.00, recoveredAmount: 0,
+    owner: 'Ops Audit', nextAction: 'File dispute with Knight-Swift' },
+
+  { id: 'INV-882177', invoiceNumber: 'ODFL-882177', carrierId: 'C-ODF',
+    shipmentId: null, shippingLocationId: 'LTH-LOC-004',
+    mode: Mode.LTL, sourceSystem: SourceSystem.SUNNYBROOK_EDI,
+    invoiceDate: '2026-04-27', receivedDate: '2026-04-28',
+    billedAmount: 1192.40, expectedAmount: 0, varianceAmount: 1192.40,
+    fuelAmount: 124.20, accessorialAmount: 0, baseFreightAmount: 1068.20,
+    status: InvoiceStatus.DISPUTED, auditStatus: AuditStatus.DUPLICATE,
+    auditReason: 'Identical to INV-882150 — same PRO + carrier',
+    duplicateFlag: true, disputeAmount: 1192.40, recoveredAmount: 0,
+    owner: 'Ops Audit', nextAction: 'Short-pay and request credit memo' },
+
+  { id: 'INV-882210', invoiceNumber: 'FDX-882210', carrierId: 'C-FDX',
+    shipmentId: 'LTH-SHP-104241', shippingLocationId: 'LTH-LOC-001',
+    mode: Mode.PARCEL, sourceSystem: SourceSystem.FEDEX_API,
+    invoiceDate: '2026-04-28', receivedDate: '2026-04-28',
+    billedAmount: 89.22, expectedAmount: 89.22, varianceAmount: 0,
+    fuelAmount: 14.20, accessorialAmount: 4.50, baseFreightAmount: 70.52,
+    status: InvoiceStatus.PAID, auditStatus: AuditStatus.RECOVERED,
+    auditReason: 'Late delivery refund recovered via FedEx claim portal',
+    duplicateFlag: false, disputeAmount: 89.22, recoveredAmount: 89.22,
+    owner: null, nextAction: null },
+
+  { id: 'INV-882198', invoiceNumber: 'EST-882198', carrierId: 'C-EST',
+    shipmentId: 'LTH-SHP-104260', shippingLocationId: 'LTH-LOC-003',
+    mode: Mode.TL, sourceSystem: SourceSystem.SUNNYBROOK_EDI,
+    invoiceDate: '2026-04-27', receivedDate: '2026-04-28',
+    billedAmount: 1612.50, expectedAmount: 1640.00, varianceAmount: -27.50,
+    fuelAmount: 188.20, accessorialAmount: 0, baseFreightAmount: 1424.30,
+    status: InvoiceStatus.MATCHED, auditStatus: AuditStatus.MATCHED,
+    auditReason: null, duplicateFlag: false, disputeAmount: 0, recoveredAmount: 0,
+    owner: null, nextAction: null },
+];
+
+/* ---------- Audit exceptions ---------- */
+const AUDIT_EXCEPTIONS_SEED = [
+  { id: 'AEX-301', invoiceId: 'INV-882104', shipmentId: 'LTH-SHP-104221',
+    shippingLocationId: 'LTH-LOC-002', carrierId: 'C-KNX',
+    type: ExceptionType.ACCESSORIAL_LEAKAGE, severity: Severity.SEV2,
+    description: 'Detention accessorial billed without supporting driver-log',
+    billedAmount: 4283.50, expectedAmount: 3671.50, varianceAmount: 612.00,
+    recoverableAmount: 612.00, status: ExceptionStatus.OPEN,
+    owner: 'Ops Audit', createdAt: '2026-04-29T07:10', dueAt: '2026-05-02T17:00',
+    recommendedAction: 'Request supporting driver-log; if not provided, dispute' },
+  { id: 'AEX-302', invoiceId: 'INV-882177', shipmentId: null,
+    shippingLocationId: 'LTH-LOC-004', carrierId: 'C-ODF',
+    type: ExceptionType.DUPLICATE_INVOICE, severity: Severity.SEV1,
+    description: 'Duplicate invoice — same PRO billed twice',
+    billedAmount: 1192.40, expectedAmount: 0, varianceAmount: 1192.40,
+    recoverableAmount: 1192.40, status: ExceptionStatus.IN_PROGRESS,
+    owner: 'Ops Audit', createdAt: '2026-04-28T14:22', dueAt: '2026-04-30T17:00',
+    recommendedAction: 'Short-pay and request credit memo' },
+];
+
+/* ---------- Operational exceptions (the action queue) ---------- */
+const EXCEPTIONS_SEED = [
+  { id: 'EX-5012', shippingLocationId: 'LTH-LOC-002', shipmentId: 'LTH-SHP-104221',
+    invoiceId: null, claimId: null, parcelPackageId: null, carrierId: 'C-KNX',
+    type: ExceptionType.LATE_DELIVERY_RISK, severity: Severity.SEV1,
+    title: 'Late delivery risk — Boston TL',
+    description: 'Knight-Swift driver reports 6h delay; ETA confidence 55%.',
+    dollarImpact: 2400, owner: 'D. Moll',
+    createdAt: '2026-04-29T03:42', dueAt: '2026-04-30T08:00', daysOpen: 0,
+    status: ExceptionStatus.OPEN,
+    recommendedAction: 'Contact KNX dispatcher; pre-alert customer',
+    drillThroughTarget: 'shipment' },
+
+  { id: 'EX-5014', shippingLocationId: 'LTH-LOC-002', shipmentId: 'LTH-SHP-104221',
+    invoiceId: 'INV-882104', claimId: null, parcelPackageId: null, carrierId: 'C-KNX',
+    type: ExceptionType.ACCESSORIAL_LEAKAGE, severity: Severity.SEV2,
+    title: 'Audit variance > $500 — KNX accessorial',
+    description: 'Detention billed without supporting driver-log.',
+    dollarImpact: 612, owner: 'Ops Audit',
+    createdAt: '2026-04-29T07:10', dueAt: '2026-05-02T17:00', daysOpen: 0,
+    status: ExceptionStatus.OPEN,
+    recommendedAction: 'File dispute with Knight-Swift',
+    drillThroughTarget: 'invoice' },
+
+  { id: 'EX-5021', shippingLocationId: 'LTH-LOC-001', shipmentId: 'LTH-SHP-104241',
+    invoiceId: null, claimId: null, parcelPackageId: 'PCL-9981', carrierId: 'C-FDX',
+    type: ExceptionType.FEDEX_DELIVERY_EXCEPTION, severity: Severity.SEV1,
+    title: 'FedEx delivery exception — address',
+    description: 'Address correction required; package held at NYC station.',
+    dollarImpact: 0, owner: 'Parcel Desk',
+    createdAt: '2026-04-29T08:14', dueAt: '2026-04-29T17:00', daysOpen: 0,
+    status: ExceptionStatus.OPEN,
+    recommendedAction: 'Initiate trace + customer alert; correct address via FedEx portal',
+    drillThroughTarget: 'parcel' },
+
+  { id: 'EX-5029', shippingLocationId: 'LTH-LOC-006', shipmentId: 'LTH-SHP-104255',
+    invoiceId: null, claimId: null, parcelPackageId: null, carrierId: null,
+    type: ExceptionType.DATA_QUALITY, severity: Severity.INFO,
+    title: 'Missing BOL — Loc 6 flatbed',
+    description: 'Excel intake row missing BOL number for SHP-104255.',
+    dollarImpact: 0, owner: 'Loc 6 Clerk',
+    createdAt: '2026-04-28T17:30', dueAt: '2026-05-03T17:00', daysOpen: 1,
+    status: ExceptionStatus.WAITING_ON_LATHAM,
+    recommendedAction: 'Re-upload BOL via Data Intake',
+    drillThroughTarget: 'shipment' },
+
+  { id: 'EX-5034', shippingLocationId: 'LTH-LOC-006', shipmentId: 'LTH-SHP-104255',
+    invoiceId: null, claimId: null, parcelPackageId: null, carrierId: 'C-XPO',
+    type: ExceptionType.OVERSIZE_PERMIT_MISSING, severity: Severity.SEV2,
+    title: 'Oversize permit missing — XPO step deck',
+    description: 'Permit status MISSING on oversize flatbed bound for LA.',
+    dollarImpact: 1800, owner: 'Loc 6 Clerk',
+    createdAt: '2026-04-29T06:55', dueAt: '2026-04-30T12:00', daysOpen: 0,
+    status: ExceptionStatus.OPEN,
+    recommendedAction: 'Verify XPO permit on file before crossing state line',
+    drillThroughTarget: 'shipment' },
+];
+
+/* ---------- Claims ---------- */
+const CLAIMS_SEED = [
+  { id: 'CLM-3344', claimNumber: 'CLM-3344', shipmentId: 'LTH-SHP-104221',
+    invoiceId: null, shippingLocationId: 'LTH-LOC-002', carrierId: 'C-KNX',
+    claimStatus: ClaimStatus.SUBMITTED, claimAmount: 1840.00,
+    paidAmount: 0, deniedAmount: 0, openAmount: 1840.00,
+    claimReason: 'Concealed damage discovered at delivery',
+    damageType: 'Cosmetic — unit corner crushed',
+    createdAt: '2026-04-22T10:00', submittedAt: '2026-04-23T14:30',
+    deadlineAt: '2026-07-22T23:59', documentsComplete: true, photosAttached: true,
+    owner: 'Claims Desk', nextAction: 'Awaiting carrier acknowledgement (3-day SLA)' },
+  { id: 'CLM-3349', claimNumber: 'CLM-3349', shipmentId: null, invoiceId: null,
+    shippingLocationId: 'LTH-LOC-005', carrierId: 'C-SAI',
+    claimStatus: ClaimStatus.MISSING_BACKUP, claimAmount: 422.50,
+    paidAmount: 0, deniedAmount: 0, openAmount: 422.50,
+    claimReason: 'Shortage — 2 cartons missing per delivery scan',
+    damageType: null,
+    createdAt: '2026-04-25T09:15', submittedAt: null,
+    deadlineAt: '2026-07-25T23:59', documentsComplete: false, photosAttached: false,
+    owner: 'Claims Desk', nextAction: 'Request signed delivery receipt + photos from Loc 5' },
+];
+
+/* ---------- Parcel packages ---------- */
+const PARCELS_SEED = [
+  { id: 'PCL-9981', packageId: 'PCL-9981', trackingNumber: '7724 9011 2345',
+    carrierId: 'C-FDX', shippingLocationId: 'LTH-LOC-001',
+    sourceSystem: SourceSystem.FEDEX_API, serviceLevel: 'FedEx 2Day',
+    shipDate: '2026-04-28', estimatedDeliveryAt: '2026-04-30T12:00',
+    actualDeliveryAt: null, parcelStatus: ParcelStatus.DELIVERY_EXCEPTION,
+    originCity: 'Latham A', originState: 'XX',
+    destinationCity: 'New York', destinationState: 'NY', destinationPostalCode: '10001',
+    zone: '5', actualWeight: 18, dimWeight: 22, billedWeight: 22,
+    baseCharge: 70.52, fuelSurcharge: 14.20, residentialSurcharge: 0,
+    dasSurcharge: 0, addressCorrectionFee: 4.50, otherSurcharges: 0,
+    totalCharge: 89.22, lateDeliveryRefundOpportunity: 89.22,
+    duplicateChargeFlag: false, voidUnusedLabelFlag: false,
+    auditStatus: AuditStatus.ACCESSORIAL_REVIEW, riskScore: 88,
+    nextAction: 'Initiate trace + customer alert' },
+
+  { id: 'PCL-9988', packageId: 'PCL-9988', trackingNumber: '7724 9012 8810',
+    carrierId: 'C-FDX', shippingLocationId: 'LTH-LOC-003',
+    sourceSystem: SourceSystem.FEDEX_API, serviceLevel: 'FedEx Ground',
+    shipDate: '2026-04-28', estimatedDeliveryAt: '2026-04-30T20:00',
+    actualDeliveryAt: null, parcelStatus: ParcelStatus.IN_TRANSIT,
+    originCity: 'Latham C', originState: 'XX',
+    destinationCity: 'Atlanta', destinationState: 'GA', destinationPostalCode: '30301',
+    zone: '4', actualWeight: 12, dimWeight: 14, billedWeight: 14,
+    baseCharge: 22.10, fuelSurcharge: 4.40, residentialSurcharge: 5.20,
+    dasSurcharge: 0, addressCorrectionFee: 0, otherSurcharges: 0,
+    totalCharge: 31.70, lateDeliveryRefundOpportunity: 0,
+    duplicateChargeFlag: false, voidUnusedLabelFlag: false,
+    auditStatus: AuditStatus.NOT_AUDITED, riskScore: 12,
+    nextAction: null },
+];
+
+/* ---------- Action items (cross-domain to-do queue) ---------- */
+const ACTION_ITEMS_SEED = [
+  { id: 'ACT-1', severity: Severity.SEV1, type: ExceptionType.LATE_DELIVERY_RISK,
+    businessArea: 'Shipment', shippingLocationId: 'LTH-LOC-002',
+    shipmentId: 'LTH-SHP-104221', invoiceId: null, claimId: null,
+    parcelPackageId: null, carrierId: 'C-KNX',
+    title: 'Boston TL slipping 6h', description: 'Knight-Swift driver delay reported.',
+    dollarImpact: 2400, owner: 'D. Moll', dueAt: '2026-04-30T08:00', daysOpen: 0,
+    status: ExceptionStatus.OPEN,
+    recommendedAction: 'Contact dispatcher; pre-alert customer',
+    drillThroughTarget: 'shipment' },
+  { id: 'ACT-2', severity: Severity.SEV1, type: ExceptionType.FEDEX_DELIVERY_EXCEPTION,
+    businessArea: 'Parcel', shippingLocationId: 'LTH-LOC-001',
+    shipmentId: 'LTH-SHP-104241', invoiceId: null, claimId: null,
+    parcelPackageId: 'PCL-9981', carrierId: 'C-FDX',
+    title: 'FedEx address correction needed', description: 'Held at NYC station.',
+    dollarImpact: 0, owner: 'Parcel Desk', dueAt: '2026-04-29T17:00', daysOpen: 0,
+    status: ExceptionStatus.OPEN,
+    recommendedAction: 'Correct address in FedEx portal',
+    drillThroughTarget: 'parcel' },
+  { id: 'ACT-3', severity: Severity.SEV1, type: ExceptionType.DUPLICATE_INVOICE,
+    businessArea: 'Audit', shippingLocationId: 'LTH-LOC-004',
+    shipmentId: null, invoiceId: 'INV-882177', claimId: null,
+    parcelPackageId: null, carrierId: 'C-ODF',
+    title: 'Duplicate ODFL invoice', description: 'Same PRO billed twice.',
+    dollarImpact: 1192.40, owner: 'Ops Audit', dueAt: '2026-04-30T17:00', daysOpen: 1,
+    status: ExceptionStatus.IN_PROGRESS,
+    recommendedAction: 'Short-pay and request credit memo',
+    drillThroughTarget: 'invoice' },
+];
+
+/* ---------- Carrier performance (Carrier records used by Carrier view) ---------- */
+const CARRIERS_PERF_SEED = CARRIERS_SEED.map(c => ({
+  id: c.id,
+  name: c.name,
+  mode: c.modeCapabilities[0],
+  otp: c.onTimeDeliveryPct,
+  billAccuracy: c.billingAccuracyPct,
+  claimsRate: c.claimRatePct,
+  volume: ({'C-FDX':4321,'C-KNX':412,'C-ODF':980,'C-XPO':188,'C-EST':612,'C-SAI':344})[c.id] || 0
+}));
+
+/* ---------- Integration status ---------- */
+const INTEGRATION_STATUS_SEED = [
+  { id: 'IS-SBT', sourceSystem: SourceSystem.SUNNYBROOK_TMS, label: 'SunnyBrook TMS',
+    status: IntegrationConnState.MOCKED, lastRefreshAt: '2026-04-29T07:42',
+    recordsReceived: 412, recordsFailed: 0, latencyMs: 184,
+    notes: 'Mocked in v1; production swap is one config change',
+    nextStep: 'Wire /shipments + /invoices in Part 4',
+    /* legacy shim */ source: 'SunnyBrook TMS', kind: 'API',
+    lastSync: '2026-04-29T07:42', detail: 'Mocked · last full sync 14m ago' },
+  { id: 'IS-FDXA', sourceSystem: SourceSystem.FEDEX_API, label: 'FedEx Tracking API',
+    status: IntegrationConnState.MOCKED, lastRefreshAt: '2026-04-29T07:51',
+    recordsReceived: 87, recordsFailed: 0, latencyMs: 211,
+    notes: 'Mocked tracking events; webhook adapter scaffolded',
+    nextStep: 'Connect FedEx Web Services in Part 4',
+    source: 'FedEx Tracking', kind: 'API',
+    lastSync: '2026-04-29T07:51', detail: 'Mocked · webhook + polling' },
+  { id: 'IS-EDI204', sourceSystem: SourceSystem.SUNNYBROOK_EDI, label: 'EDI 204 (Tender)',
+    status: IntegrationConnState.MOCKED, lastRefreshAt: '2026-04-29T07:33',
+    recordsReceived: 38, recordsFailed: 0, latencyMs: 412,
+    notes: 'AS2 inbound; X12 4010', nextStep: 'Map qualifiers to canonical Shipment',
+    source: 'EDI 204', kind: 'EDI',
+    lastSync: '2026-04-29T07:33', detail: 'Mocked · AS2 inbound' },
+  { id: 'IS-EDI210', sourceSystem: SourceSystem.SUNNYBROOK_EDI, label: 'EDI 210 (Invoice)',
+    status: IntegrationConnState.DEGRADED, lastRefreshAt: '2026-04-29T03:11',
+    recordsReceived: 0, recordsFailed: 0, latencyMs: null,
+    notes: 'Lag > 4h on Knight-Swift partner',
+    nextStep: 'Open ticket with KNX EDI team',
+    source: 'EDI 210', kind: 'EDI',
+    lastSync: '2026-04-29T03:11', detail: 'Lag > 4h on Knight-Swift partner' },
+  { id: 'IS-XLS', sourceSystem: SourceSystem.EXCEL_DROP, label: 'Excel intake',
+    status: IntegrationConnState.CONNECTED, lastRefreshAt: '2026-04-29T06:20',
+    recordsReceived: 142, recordsFailed: 0, latencyMs: null,
+    notes: '3 files this week', nextStep: 'Add schema validator in Part 4',
+    source: 'Excel intake', kind: 'Manual',
+    lastSync: '2026-04-29T06:20', detail: '3 files this week' },
+  { id: 'IS-AUD', sourceSystem: SourceSystem.AUDIT_FILE, label: 'Audit file (sFTP)',
+    status: IntegrationConnState.CONNECTED, lastRefreshAt: '2026-04-29T05:00',
+    recordsReceived: 612, recordsFailed: 2, latencyMs: null,
+    notes: 'Daily 5am pull', nextStep: 'Add retry + dead-letter queue',
+    source: 'Audit File', kind: 'sFTP',
+    lastSync: '2026-04-29T05:00', detail: 'Daily 5am pull' },
+];
+
+/* ---------- Upload batches ---------- */
+const UPLOAD_BATCHES_SEED = [
+  { id: 'UB-1', fileName: 'latham_loads_2026-04-29.xlsx', fileType: 'xlsx',
+    uploadedAt: '2026-04-29T06:20', sourceSystem: SourceSystem.EXCEL_DROP,
+    schemaType: 'shipments_v1', rowCount: 142, acceptedCount: 138,
+    rejectedCount: 0, warningCount: 4,
+    mappedFields: ['shipmentNumber','origin','destination','mode','carrier','weight'],
+    dataQualityScore: 0.96, status: 'PARSED' },
+  { id: 'UB-2', fileName: 'AS2_inbound_KNX.edi', fileType: 'edi',
+    uploadedAt: '2026-04-29T07:33', sourceSystem: SourceSystem.SUNNYBROOK_EDI,
+    schemaType: 'edi_204_v4010', rowCount: 38, acceptedCount: 38,
+    rejectedCount: 0, warningCount: 0,
+    mappedFields: ['B204','S5','L5','N1','N3','N4','G62'],
+    dataQualityScore: 1.00, status: 'PARSED' },
+];
+
+/* ---------- Filter dropdown vocabulary (display) ---------- */
+const MODES    = Object.values(Mode);
+const CARRIERS = CARRIERS_SEED.map(c => c.name);
+const STATUSES = Object.values(ShipmentStatus);
+const SOURCES  = Object.values(SourceSystem);
+
+/* ---------------------------------------------------------
+   FORMAT HELPERS  (mirrors lib/format.ts)
+   --------------------------------------------------------- */
+
+const fmt = {
+  usd: (n) => '$' + (Number(n) || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+  usd0: (n) => '$' + Math.round(Number(n) || 0).toLocaleString('en-US'),
+  pct: (n, d = 1) => (Number(n) * 100).toFixed(d) + '%',
+  num: (n) => (Number(n) || 0).toLocaleString('en-US'),
+  short: (s, n = 36) => (s || '').length > n ? (s.slice(0, n - 1) + '…') : (s || ''),
+  date: (s) => {
+    if (!s) return '—';
+    const d = new Date(s);
+    if (isNaN(d)) return s;
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  },
+  datetime: (s) => {
+    if (!s) return '—';
+    const d = new Date(s);
+    if (isNaN(d)) return s;
+    return d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+  }
+};
+
+/* ---------------------------------------------------------
+   RISK + AUDIT helpers (mirrors lib/risk-scoring.ts, audit-rules.ts)
+   --------------------------------------------------------- */
+
+const risk = {
+  toBadge(score) {
+    if (score >= 70) return { label: 'High',   cls: 'badge--critical' };
+    if (score >= 40) return { label: 'Medium', cls: 'badge--warn' };
+    return { label: 'Low', cls: 'badge--good' };
+  }
+};
+
+/* ---------------------------------------------------------
+   SELECTORS — build view models from raw mock data.
+   Mirrors lib/selectors.ts on the Next.js spec.
+   --------------------------------------------------------- */
+
+/* Helper: resolve carrier name from a record's carrierId */
+function carrierName(carrierId) {
+  if (!carrierId) return '—';
+  const c = CARRIERS_SEED.find(x => x.id === carrierId);
+  return c ? c.name : carrierId;
+}
+
+/* Helper: derive a shipment's "open audit recoverable" amount */
+function invoiceOpenRecoverable(i) {
+  const open = i.status !== InvoiceStatus.PAID && i.auditStatus !== AuditStatus.RECOVERED;
+  return open ? (i.disputeAmount - i.recoveredAmount) : 0;
+}
+
+const select = {
+  locations: () => SHIPPING_LOCATIONS,
+
+  locationById: (id) => SHIPPING_LOCATIONS.find(l => l.id === id),
+
+  /* Shipments — Part 2 schema. Filters accept legacy values too:
+   * - filters.locationId maps to shippingLocationId
+   * - filters.mode is a Mode enum value
+   * - filters.carrier is the display name (looked up to carrierId)
+   * - filters.status is a ShipmentStatus enum value
+   * - filters.risk is 'Low'|'Medium'|'High' (from risk.toBadge)
+   */
+  shipments: (filters = {}) => {
+    return SHIPMENTS_SEED.filter(s => {
+      if (filters.locationId && s.shippingLocationId !== filters.locationId) return false;
+      if (filters.mode       && s.mode               !== filters.mode)       return false;
+      if (filters.carrier    && carrierName(s.carrierId) !== filters.carrier) return false;
+      if (filters.status     && s.status             !== filters.status)     return false;
+      if (filters.source     && s.sourceSystem       !== filters.source)     return false;
+      if (filters.risk) {
+        const lbl = risk.toBadge(s.riskScore).label;
+        if (lbl !== filters.risk) return false;
+      }
+      return true;
+    });
+  },
+
+  invoices: (filters = {}) => {
+    return INVOICES_SEED.filter(i => {
+      if (filters.locationId && i.shippingLocationId !== filters.locationId) return false;
+      if (filters.carrier    && carrierName(i.carrierId) !== filters.carrier) return false;
+      if (filters.mode       && i.mode               !== filters.mode)       return false;
+      if (filters.source     && i.sourceSystem       !== filters.source)     return false;
+      return true;
+    });
+  },
+
+  exceptions: (filters = {}) => {
+    return EXCEPTIONS_SEED.filter(e => {
+      if (filters.locationId && e.shippingLocationId !== filters.locationId) return false;
+      if (filters.carrier    && e.carrierId && carrierName(e.carrierId) !== filters.carrier) return false;
+      return true;
+    });
+  },
+
+  auditExceptions: (filters = {}) => {
+    return AUDIT_EXCEPTIONS_SEED.filter(e =>
+      !filters.locationId || e.shippingLocationId === filters.locationId
+    );
+  },
+
+  claims: (filters = {}) => CLAIMS_SEED.filter(c =>
+    !filters.locationId || c.shippingLocationId === filters.locationId
+  ),
+
+  parcels: (filters = {}) => PARCELS_SEED.filter(p =>
+    !filters.locationId || p.shippingLocationId === filters.locationId
+  ),
+
+  actionItems: (filters = {}) => ACTION_ITEMS_SEED.filter(a =>
+    !filters.locationId || a.shippingLocationId === filters.locationId
+  ),
+
+  trackingEvents: (shipmentId) => TRACKING_EVENTS_SEED
+    .filter(t => t.shipmentId === shipmentId)
+    .sort((a, b) => new Date(a.eventTimestamp) - new Date(b.eventTimestamp)),
+
+  carriers: () => CARRIERS_PERF_SEED,
+
+  carriersFull: () => CARRIERS_SEED,
+
+  carrierById: (id) => CARRIERS_SEED.find(c => c.id === id),
+
+  lanes: () => LANES_SEED,
+
+  customerLocations: () => CUSTOMER_LOCATIONS_SEED,
+
+  integrationStatus: () => INTEGRATION_STATUS_SEED,
+
+  uploadBatches: () => UPLOAD_BATCHES_SEED,
+
+  /* ------ derived KPIs ------ */
+  globalKPIs: (filters = {}) => {
+    const ships = select.shipments(filters);
+    const invs  = select.invoices(filters);
+    const excs  = select.exceptions(filters);
+    const recoverable = invs.reduce((sum, i) => sum + invoiceOpenRecoverable(i), 0);
+    const otpEligible = ships.filter(s =>
+      s.status === ShipmentStatus.DELIVERED && s.actualDeliveryAt && s.plannedDeliveryAt);
+    const onTime = otpEligible.length
+      ? otpEligible.filter(s => new Date(s.actualDeliveryAt) <= new Date(s.plannedDeliveryAt)).length / otpEligible.length
+      : 0.913; // fallback to seed-level network number
+    return {
+      shipments:        ships.length,
+      atRisk:           ships.filter(isShipmentAtRisk).length,
+      openExceptions:   excs.length,
+      criticalExc:      excs.filter(e => e.severity === Severity.SEV1).length,
+      recoverable:      recoverable,
+      onTime:           onTime,
+      avgRisk:          ships.length ? Math.round(ships.reduce((a,s)=>a+s.riskScore,0)/ships.length) : 0,
+    };
+  }
+};
+
+/* ---------------------------------------------------------
+   APP STATE
+   --------------------------------------------------------- */
+
+const state = {
+  activeTab: 'watchtower',
+  filters: {
+    locationId: null,
+    mode: null,
+    carrier: null,
+    status: null,
+    risk: null,
+    source: null,
+    dateRange: 'Last 7 days'
+  }
+};
+
+const TABS = [
+  { id: 'watchtower',   num: '01', label: 'Location Watchtower',     alertKey: null },
+  { id: 'shipment',     num: '02', label: 'Shipment Commander',      alertKey: 'atRisk' },
+  { id: 'audit',        num: '03', label: 'Freight Bill Audit',      alertKey: 'invoiceOpen' },
+  { id: 'parcel',       num: '04', label: 'Parcel / FedEx',          alertKey: 'parcelExc' },
+  { id: 'claims',       num: '05', label: 'Claims / OS&D',           alertKey: 'claimsOpen' },
+  { id: 'carrier',      num: '06', label: 'Carrier + Lane',          alertKey: null },
+  { id: 'exceptions',   num: '07', label: 'Exceptions',              alertKey: 'excCrit' },
+  { id: 'intake',       num: '08', label: 'Data Intake',             alertKey: null },
+  { id: 'integration',  num: '09', label: 'Integration Health',      alertKey: 'integDegraded' }
+];
+
+function getTabBadgeCount(tabId) {
+  switch (tabId) {
+    case 'shipment':    return select.shipments().filter(isShipmentAtRisk).length;
+    case 'audit':       return INVOICES_SEED.filter(i => i.status !== InvoiceStatus.PAID).length;
+    case 'parcel':      return PARCELS_SEED.filter(p => p.parcelStatus === ParcelStatus.DELIVERY_EXCEPTION).length;
+    case 'claims':      return CLAIMS_SEED.filter(c => c.claimStatus !== ClaimStatus.CLOSED && c.claimStatus !== ClaimStatus.PAID && c.claimStatus !== ClaimStatus.DENIED).length;
+    case 'exceptions':  return EXCEPTIONS_SEED.filter(e => e.severity === Severity.SEV1).length;
+    case 'integration': return INTEGRATION_STATUS_SEED.filter(s => s.status === IntegrationConnState.DEGRADED || s.status === IntegrationConnState.NOT_CONNECTED).length;
+    default: return 0;
+  }
+}
+
+/* ---------------------------------------------------------
+   FILTER DEFINITIONS for the chip row
+   --------------------------------------------------------- */
+
+const FILTERS = [
+  { key: 'dateRange',  label: 'Date',     options: ['Last 24 hours', 'Last 7 days', 'Last 30 days', 'Quarter to date', 'Year to date'] },
+  { key: 'locationId', label: 'Location', options: SHIPPING_LOCATIONS.map(l => ({ value: l.id, label: l.name, meta: l.code })) },
+  { key: 'mode',       label: 'Mode',     options: MODES.map(m => ({ value: m, label: ModeLabel[m] })) },
+  { key: 'carrier',    label: 'Carrier',  options: CARRIERS },
+  { key: 'status',     label: 'Status',   options: STATUSES.map(s => ({ value: s, label: ShipmentStatusLabel[s] })) },
+  { key: 'risk',       label: 'Risk',     options: ['Low', 'Medium', 'High'] },
+  { key: 'source',     label: 'Source',   options: SOURCES.map(s => ({ value: s, label: SourceSystemLabel[s] })) },
+];
+
+/* ---------------------------------------------------------
+   RENDER — top-level
+   --------------------------------------------------------- */
+
+function render() {
+  renderTabs();
+  renderFilters();
+  renderLocationBanner();
+  renderActiveView();
+}
+
+/* ----- TABS ----- */
+function renderTabs() {
+  const el = document.getElementById('tabbar');
+  el.innerHTML = TABS.map(t => {
+    const count = getTabBadgeCount(t.id);
+    const hasAlert = (t.id === 'exceptions' || t.id === 'parcel' || t.id === 'integration') && count > 0;
+    return `
+      <button class="tabButton ${state.activeTab === t.id ? 'is-active' : ''} ${hasAlert ? 'has-alert' : ''}"
+              onclick="setTab('${t.id}')">
+        <span class="num">${t.num}</span>
+        <span>${t.label}</span>
+        ${count > 0 ? `<span class="badgeCount">${count}</span>` : ''}
+      </button>
+    `;
+  }).join('');
+}
+
+function setTab(id) {
+  state.activeTab = id;
+  closePopover();
+  render();
+}
+
+/* ----- FILTERS ----- */
+function renderFilters() {
+  const el = document.getElementById('filterRow');
+  const chips = FILTERS.map(f => {
+    const v = state.filters[f.key];
+    let display;
+    if (f.key === 'locationId' && v) {
+      const loc = select.locationById(v);
+      display = loc ? loc.code : v;
+    } else if (f.key === 'mode' && v) {
+      display = ModeLabel[v] || v;
+    } else if (f.key === 'status' && v) {
+      display = ShipmentStatusLabel[v] || v;
+    } else if (f.key === 'source' && v) {
+      display = SourceSystemLabel[v] || v;
+    } else if (v) {
+      display = v;
+    } else {
+      display = 'All';
+    }
+    const isActive = !!v && !(f.key === 'dateRange' && v === 'Last 7 days');
+    return `
+      <button class="filterChip ${isActive ? 'is-active' : ''}"
+              onclick="openFilterPopover(event, '${f.key}')">
+        <span class="chipKey">${f.label}</span>
+        <span class="chipValue">${display}</span>
+        <span class="chipCaret">▾</span>
+      </button>
+    `;
+  }).join('');
+
+  el.innerHTML = `
+    <span class="filterLabel">Filters</span>
+    ${chips}
+    <button class="filterChip clearAll" onclick="clearAllFilters()">Reset</button>
+  `;
+}
+
+function openFilterPopover(evt, key) {
+  evt.stopPropagation();
+  const filter = FILTERS.find(f => f.key === key);
+  const layer = document.getElementById('popoverLayer');
+  const r = evt.currentTarget.getBoundingClientRect();
+
+  const opts = filter.options.map(opt => {
+    const value = typeof opt === 'string' ? opt : opt.value;
+    const label = typeof opt === 'string' ? opt : opt.label;
+    const meta  = typeof opt === 'string' ? '' : (opt.meta || '');
+    const isSel = state.filters[key] === value;
+    return `
+      <div class="popOption ${isSel ? 'is-selected' : ''}" onclick="applyFilter('${key}', ${JSON.stringify(value)})">
+        <span>${label}</span>
+        ${meta ? `<span class="opt-meta">${meta}</span>` : ''}
+      </div>
+    `;
+  }).join('');
+
+  const clearOption = `
+    <div class="popOption" onclick="applyFilter('${key}', null)" style="border-top:1px solid var(--border-soft); color: var(--text-muted);">
+      <span>Clear ${filter.label.toLowerCase()}</span>
+    </div>
+  `;
+
+  layer.innerHTML = `
+    <div class="popover" style="top: ${r.bottom + 4}px; left: ${r.left}px;">
+      ${opts}
+      ${state.filters[key] ? clearOption : ''}
+    </div>
+  `;
+
+  setTimeout(() => {
+    document.addEventListener('click', closePopover, { once: true });
+  }, 0);
+}
+
+function closePopover() {
+  document.getElementById('popoverLayer').innerHTML = '';
+}
+
+function applyFilter(key, value) {
+  state.filters[key] = value;
+  closePopover();
+  render();
+}
+
+function clearAllFilters() {
+  state.filters = {
+    locationId: null, mode: null, carrier: null, status: null,
+    risk: null, source: null, dateRange: 'Last 7 days'
+  };
+  render();
+}
+
+function clearLocationFilter() {
+  state.filters.locationId = null;
+  render();
+}
+
+/* ----- LOCATION BANNER ----- */
+function renderLocationBanner() {
+  const banner = document.getElementById('locationBanner');
+  if (!state.filters.locationId) {
+    banner.classList.add('hidden');
+    return;
+  }
+  const loc = select.locationById(state.filters.locationId);
+  if (!loc) { banner.classList.add('hidden'); return; }
+  banner.classList.remove('hidden');
+  document.getElementById('locationBannerName').textContent = loc.name;
+  document.getElementById('locationBannerCode').textContent = ' · ' + loc.code + ' · ' + loc.region;
+}
+
+/* ---------------------------------------------------------
+   VIEW DISPATCH
+   --------------------------------------------------------- */
+
+function renderActiveView() {
+  const el = document.getElementById('viewStack');
+  switch (state.activeTab) {
+    case 'watchtower':  el.innerHTML = view_watchtower();  break;
+    case 'shipment':    el.innerHTML = view_shipment();    break;
+    case 'audit':       el.innerHTML = view_audit();       break;
+    case 'parcel':      el.innerHTML = view_parcel();      break;
+    case 'claims':      el.innerHTML = view_claims();      break;
+    case 'carrier':     el.innerHTML = view_carrier();     break;
+    case 'exceptions':  el.innerHTML = view_exceptions();  break;
+    case 'intake':      el.innerHTML = view_intake();      break;
+    case 'integration': el.innerHTML = view_integration(); break;
+    default:            el.innerHTML = '<div class="sectionCard">Unknown view.</div>';
+  }
+}
+
+/* ---------------------------------------------------------
+   SHARED VIEW PARTS
+   --------------------------------------------------------- */
+
+function viewHeader(title, subtitle, metaLeft, metaRight) {
+  return `
+    <div class="viewHeader">
+      <div>
+        <h2>${title}</h2>
+        <div class="viewSub">${subtitle}</div>
+      </div>
+      <div class="viewMeta">
+        ${metaLeft ? `<div>${metaLeft}</div>` : ''}
+        ${metaRight ? `<div>${metaRight}</div>` : ''}
+      </div>
+    </div>
+  `;
+}
+
+function scaffoldNote(text) {
+  return `
+    <div class="scaffoldNote">
+      <span class="lbl">Part 2-4</span>
+      <span>${text}</span>
+    </div>
+  `;
+}
+
+/* ---------------------------------------------------------
+   01 — LOCATION WATCHTOWER
+   --------------------------------------------------------- */
+
+function view_watchtower() {
+  const k = select.globalKPIs(state.filters);
+  const locs = select.locations();
+
+  const kpis = `
+    <div class="kpiGrid">
+      <div class="metricCard tone-good">
+        <div class="metricLabel">On-time delivery</div>
+        <div class="metricValue tnum">${fmt.pct(k.onTime, 1)}</div>
+        <div class="metricFoot"><span class="delta up">▲ 1.4 pts</span><span class="muted">vs prior 7d</span></div>
+      </div>
+      <div class="metricCard">
+        <div class="metricLabel">Active shipments</div>
+        <div class="metricValue tnum">${fmt.num(k.shipments)}</div>
+        <div class="metricFoot"><span class="muted">across ${locs.length} locations</span></div>
+      </div>
+      <div class="metricCard tone-warn">
+        <div class="metricLabel">At-risk / exception</div>
+        <div class="metricValue tnum">${k.atRisk}</div>
+        <div class="metricFoot"><span class="delta up">▲ 2</span><span class="muted">vs yesterday</span></div>
+      </div>
+      <div class="metricCard tone-crit">
+        <div class="metricLabel">Critical exceptions</div>
+        <div class="metricValue tnum">${k.criticalExc}</div>
+        <div class="metricFoot"><span class="muted">requires action today</span></div>
+      </div>
+      <div class="metricCard tone-good">
+        <div class="metricLabel">Recoverable (open audit)</div>
+        <div class="metricValue tnum">${fmt.usd0(k.recoverable)}</div>
+        <div class="metricFoot"><span class="muted">${INVOICES_SEED.filter(i=>i.status!==InvoiceStatus.PAID).length} open invoices</span></div>
+      </div>
+      <div class="metricCard">
+        <div class="metricLabel">Avg shipment risk</div>
+        <div class="metricValue tnum">${k.avgRisk}<span class="unit">/100</span></div>
+        <div class="metricFoot"><span class="muted">weighted by spend</span></div>
+      </div>
+    </div>
+  `;
+
+  const locRows = locs.map(l => {
+    const ships = select.shipments({ locationId: l.id });
+    const excs  = select.exceptions({ locationId: l.id });
+    const invs  = select.invoices({ locationId: l.id });
+    const cls = l.healthScore >= 85 ? 'good' : l.healthScore >= 70 ? 'warn' : 'crit';
+    const badge = l.healthScore >= 85 ? 'badge--good' : l.healthScore >= 70 ? 'badge--warn' : 'badge--critical';
+    const label = l.healthScore >= 85 ? 'Healthy' : l.healthScore >= 70 ? 'Watch' : 'Critical';
+    return `
+      <tr class="is-clickable" onclick="applyFilter('locationId', '${l.id}')">
+        <td class="mono">${l.code}</td>
+        <td><strong>${l.name}</strong></td>
+        <td>${l.region}</td>
+        <td>
+          <div class="flexrow">
+            <div class="progress" style="max-width:80px;"><div class="progressFill ${cls}" style="width:${l.healthScore}%"></div></div>
+            <span class="mono tnum">${l.healthScore}</span>
+          </div>
+        </td>
+        <td><span class="badge ${badge}"><span class="dot"></span>${label}</span></td>
+        <td class="num">${ships.length}</td>
+        <td class="num">${excs.length}</td>
+        <td class="num">${fmt.usd0(invs.reduce((a,i)=>a+invoiceOpenRecoverable(i),0))}</td>
+      </tr>
+    `;
+  }).join('');
+
+  return `
+    ${viewHeader(
+      'Location Watchtower',
+      'Operational health by Latham shipping location. Click any row to filter the entire control tower.',
+      `<strong>${locs.length}</strong> locations`,
+      `Window: <strong>${state.filters.dateRange}</strong>`
+    )}
+
+    ${kpis}
+
+    <div class="card">
+      <div class="cardHead">
+        <h3>Locations — health & exposure</h3>
+        <span class="cardSub">Click row to drill in</span>
+      </div>
+      <div class="cardBody flush">
+        <table class="dataTable">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Location</th>
+              <th>Region</th>
+              <th>Health</th>
+              <th>Status</th>
+              <th class="num">Active</th>
+              <th class="num">Excs</th>
+              <th class="num">Recoverable</th>
+            </tr>
+          </thead>
+          <tbody>${locRows}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panelGrid cols-2">
+      <div class="card">
+        <div class="cardHead">
+          <h3>Top critical exceptions</h3>
+          <span class="cardSub">Live</span>
+        </div>
+        <div class="cardBody">
+          <div class="stackList">
+            ${select.exceptions(state.filters).filter(e=>e.severity!==Severity.INFO).slice(0,4).map(e=>{
+              const loc = select.locationById(e.shippingLocationId);
+              const sev = e.severity === Severity.SEV1 ? 'crit' : '';
+              const sevBadge = SeverityBadgeClass[e.severity];
+              return `
+                <div class="exceptionCard ${sev}">
+                  <div class="cardTitleRow">
+                    <span class="ttl">${e.title || ExceptionTypeLabel[e.type]}</span>
+                    <span class="badge ${sevBadge}"><span class="dot"></span>${SeverityLabel[e.severity]}</span>
+                  </div>
+                  <div class="cardMeta">
+                    <span class="meta"><span class="mono">${loc?loc.code:'—'}</span></span>
+                    <span class="meta">Owner <strong>${e.owner||'Unassigned'}</strong></span>
+                    <span class="meta">Due <strong>${fmt.date(e.dueAt)}</strong></span>
+                    ${e.dollarImpact ? `<span class="meta">Impact <strong>${fmt.usd0(e.dollarImpact)}</strong></span>`:''}
+                  </div>
+                  <div class="muted" style="font-size:12px;">${e.recommendedAction}</div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="cardHead">
+          <h3>Integration heartbeat</h3>
+          <span class="cardSub">Last 24h</span>
+        </div>
+        <div class="cardBody flush">
+          <table class="dataTable">
+            <thead>
+              <tr><th>Source</th><th>Type</th><th>Status</th><th>Last sync</th></tr>
+            </thead>
+            <tbody>
+              ${select.integrationStatus().map(s=>{
+                const cls = IntegrationBadgeClass[s.status] || 'badge--neutral';
+                return `
+                  <tr>
+                    <td><strong>${s.label}</strong></td>
+                    <td class="mono">${s.kind}</td>
+                    <td><span class="badge ${cls}"><span class="dot"></span>${IntegrationConnLabel[s.status]}</span></td>
+                    <td class="mono">${fmt.datetime(s.lastRefreshAt)}</td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ---------------------------------------------------------
+   02 — SHIPMENT COMMANDER (Part 1 scaffold)
+   --------------------------------------------------------- */
+
+function view_shipment() {
+  const ships = select.shipments(state.filters);
+  const atRisk = ships.filter(isShipmentAtRisk).length;
+
+  // Compute ETA delta in hours from planned vs estimated
+  const etaDelta = (s) => {
+    if (!s.plannedDeliveryAt || !s.estimatedDeliveryAt) return '0h';
+    const diffMs = new Date(s.estimatedDeliveryAt) - new Date(s.plannedDeliveryAt);
+    const hours = Math.round(diffMs / 3600000);
+    if (hours === 0) return '0h';
+    if (Math.abs(hours) >= 24) return (hours > 0 ? '+' : '') + Math.round(hours/24) + 'd';
+    return (hours > 0 ? '+' : '') + hours + 'h';
+  };
+
+  // Status badge mapping
+  const statusBadgeFor = (status) => {
+    if (status === ShipmentStatus.DELIVERED || status === ShipmentStatus.CLOSED) return 'badge--good';
+    if (status === ShipmentStatus.EXCEPTION || status === ShipmentStatus.CANCELLED) return 'badge--critical';
+    if (status === ShipmentStatus.OUT_FOR_DELIVERY || status === ShipmentStatus.IN_TRANSIT
+     || status === ShipmentStatus.PICKED_UP) return 'badge--info';
+    return 'badge--neutral';
+  };
+
+  return `
+    ${viewHeader(
+      'Shipment Commander',
+      'Live shipment ledger across TL, LTL, flatbed, fleet, and parcel — risk-scored and source-tagged.',
+      `<strong>${ships.length}</strong> shipments`,
+      `${atRisk} at risk`
+    )}
+
+    ${scaffoldNote('Full shipment commander — risk lanes, ETA delta visualizer, multi-leg tracking timeline, and per-shipment drill drawer arrive in Part 3 or 4.')}
+
+    <div class="card">
+      <div class="cardHead">
+        <h3>Shipments</h3>
+        <span class="cardSub">SunnyBrook + EDI + FedEx + Excel</span>
+      </div>
+      <div class="cardBody flush">
+        <table class="dataTable">
+          <thead>
+            <tr>
+              <th>Shipment</th>
+              <th>Location</th>
+              <th>Mode</th>
+              <th>Carrier</th>
+              <th>Status</th>
+              <th>Risk</th>
+              <th>ETA Δ</th>
+              <th>Source</th>
+              <th class="num">Conf.</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${ships.map(s => {
+              const loc = select.locationById(s.shippingLocationId);
+              const r   = risk.toBadge(s.riskScore);
+              const sb  = isShipmentAtRisk(s) ? 'badge--warn' : statusBadgeFor(s.status);
+              const statusLabel = isShipmentAtRisk(s) ? 'At risk' : ShipmentStatusLabel[s.status];
+              const delta = etaDelta(s);
+              return `
+                <tr>
+                  <td class="mono">${s.shipmentNumber}</td>
+                  <td><strong>${loc ? loc.code : '—'}</strong> <span class="faint">${loc ? loc.name.replace('Latham Shipping Location ','Loc ') : ''}</span></td>
+                  <td>${ModeLabel[s.mode]}</td>
+                  <td>${carrierName(s.carrierId)}</td>
+                  <td><span class="badge ${sb}"><span class="dot"></span>${statusLabel}</span></td>
+                  <td><span class="badge ${r.cls}">${r.label} · ${s.riskScore}</span></td>
+                  <td class="mono ${delta!=='0h'?'':'faint'}">${delta}</td>
+                  <td class="mono">${SourceSystemLabel[s.sourceSystem]}</td>
+                  <td class="num">${(s.dataConfidence*100).toFixed(0)}%</td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+/* ---------------------------------------------------------
+   03 — FREIGHT BILL AUDIT (Part 1 scaffold)
+   --------------------------------------------------------- */
+
+function view_audit() {
+  const invs = select.invoices(state.filters);
+  const open = invs.filter(i => i.status !== InvoiceStatus.PAID);
+  const recoverable = invs.reduce((a,i) => a + invoiceOpenRecoverable(i), 0);
+
+  const auditBadge = (auditStatus) => {
+    if (auditStatus === AuditStatus.RECOVERED || auditStatus === AuditStatus.MATCHED || auditStatus === AuditStatus.APPROVED) return 'badge--good';
+    if (auditStatus === AuditStatus.DUPLICATE || auditStatus === AuditStatus.RATE_MISMATCH) return 'badge--critical';
+    return 'badge--warn';
+  };
+
+  return `
+    ${viewHeader(
+      'Freight Bill Audit',
+      'Invoice exceptions, accessorial overcharges, duplicate billing, and recoverable dollars by location.',
+      `<strong>${open.length}</strong> open`,
+      `Recoverable <strong>${fmt.usd0(recoverable)}</strong>`
+    )}
+
+    ${scaffoldNote('Full audit engine — rule library, dispute queue, recovery aging, accessorial heatmap, and dollar-impact ranking arrive in Part 3.')}
+
+    <div class="card">
+      <div class="cardHead">
+        <h3>Invoices &amp; audit status</h3>
+        <span class="cardSub">${SourceSystemLabel[SourceSystem.SUNNYBROOK_EDI]} · ${SourceSystemLabel[SourceSystem.SUNNYBROOK_TMS]} · ${SourceSystemLabel[SourceSystem.FEDEX_API]}</span>
+      </div>
+      <div class="cardBody flush">
+        <table class="dataTable">
+          <thead>
+            <tr>
+              <th>Invoice</th>
+              <th>Location</th>
+              <th>Carrier</th>
+              <th>Mode</th>
+              <th>Audit reason</th>
+              <th class="num">Billed</th>
+              <th class="num">Variance</th>
+              <th class="num">Recoverable</th>
+              <th>Audit status</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${invs.map(i => {
+              const loc = select.locationById(i.shippingLocationId);
+              const recov = invoiceOpenRecoverable(i);
+              const reason = i.auditReason || (i.auditStatus === AuditStatus.MATCHED ? '—' : AuditStatusLabel[i.auditStatus]);
+              return `
+                <tr>
+                  <td class="mono">${i.invoiceNumber}</td>
+                  <td><strong>${loc?loc.code:'—'}</strong></td>
+                  <td>${carrierName(i.carrierId)}</td>
+                  <td>${ModeLabel[i.mode]}</td>
+                  <td>${reason}</td>
+                  <td class="num">${fmt.usd(i.billedAmount)}</td>
+                  <td class="num ${i.varianceAmount>0?'':''}">${i.varianceAmount>=0?fmt.usd(i.varianceAmount):'-'+fmt.usd(Math.abs(i.varianceAmount))}</td>
+                  <td class="num strong">${fmt.usd(recov)}</td>
+                  <td><span class="badge ${auditBadge(i.auditStatus)}"><span class="dot"></span>${AuditStatusLabel[i.auditStatus]}</span></td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+/* ---------------------------------------------------------
+   04 — PARCEL / FEDEX (Part 1 scaffold)
+   --------------------------------------------------------- */
+
+function view_parcel() {
+  const pcls = select.parcels(state.filters);
+  const exc  = pcls.filter(p => p.parcelStatus === ParcelStatus.DELIVERY_EXCEPTION).length;
+
+  // For each parcel, look up the latest tracking event (matched by trackingNumber)
+  const lastEventFor = (p) => {
+    const evs = TRACKING_EVENTS_SEED
+      .filter(t => t.trackingNumber === p.trackingNumber)
+      .sort((a,b) => new Date(b.eventTimestamp) - new Date(a.eventTimestamp));
+    return evs[0] || null;
+  };
+
+  const parcelBadge = (status) => {
+    if (status === ParcelStatus.DELIVERED) return 'badge--good';
+    if (status === ParcelStatus.DELIVERY_EXCEPTION || status === ParcelStatus.VOIDED) return 'badge--critical';
+    if (status === ParcelStatus.OUT_FOR_DELIVERY || status === ParcelStatus.IN_TRANSIT
+     || status === ParcelStatus.PICKED_UP) return 'badge--info';
+    return 'badge--neutral';
+  };
+
+  return `
+    ${viewHeader(
+      'Parcel / FedEx',
+      'FedEx tracking, package visibility, surcharge audit, and delivery exceptions by Latham shipping location.',
+      `<strong>${pcls.length}</strong> packages`,
+      `${exc} delivery exceptions`
+    )}
+
+    ${scaffoldNote('Full parcel desk — tracking timeline, address-failure remediation queue, customer-alert workflow, surcharge audit drill, and FedEx webhook event log arrive in Part 3.')}
+
+    <div class="card">
+      <div class="cardHead">
+        <h3>Active packages</h3>
+        <span class="cardSub">FedEx API + webhook</span>
+      </div>
+      <div class="cardBody flush">
+        <table class="dataTable">
+          <thead>
+            <tr>
+              <th>Package</th>
+              <th>Tracking #</th>
+              <th>Location</th>
+              <th>Service</th>
+              <th>Status</th>
+              <th>Last event</th>
+              <th class="num">Total</th>
+              <th class="num">Refund opp.</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${pcls.map(p => {
+              const loc = select.locationById(p.shippingLocationId);
+              const cls = parcelBadge(p.parcelStatus);
+              const ev  = lastEventFor(p);
+              return `
+                <tr>
+                  <td class="mono">${p.packageId}</td>
+                  <td class="mono">${p.trackingNumber}</td>
+                  <td><strong>${loc?loc.code:'—'}</strong></td>
+                  <td>${p.serviceLevel}</td>
+                  <td><span class="badge ${cls}"><span class="dot"></span>${ParcelStatusLabel[p.parcelStatus]}</span></td>
+                  <td>
+                    <div>${ev ? ev.eventDescription : '—'}</div>
+                    <div class="mono faint" style="font-size:11px;">${ev ? fmt.datetime(ev.eventTimestamp) : ''}</div>
+                  </td>
+                  <td class="num">${fmt.usd(p.totalCharge)}</td>
+                  <td class="num strong">${p.lateDeliveryRefundOpportunity > 0 ? fmt.usd(p.lateDeliveryRefundOpportunity) : '—'}</td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+/* ---------------------------------------------------------
+   05 — CLAIMS / OS&D (Part 1 scaffold)
+   --------------------------------------------------------- */
+
+function view_claims() {
+  const claims = select.claims(state.filters);
+  const closed = [ClaimStatus.CLOSED, ClaimStatus.PAID, ClaimStatus.DENIED];
+  const open = claims.filter(c => !closed.includes(c.claimStatus));
+  const exposure = open.reduce((a,c) => a + c.openAmount, 0);
+
+  const claimBadge = (cs) => {
+    if (cs === ClaimStatus.PAID) return 'badge--good';
+    if (cs === ClaimStatus.DENIED) return 'badge--critical';
+    if (cs === ClaimStatus.MISSING_BACKUP) return 'badge--warn';
+    return 'badge--info';
+  };
+
+  return `
+    ${viewHeader(
+      'Claims / OS&D',
+      'Damage, shortage, and overage claims tracked from filing through recovery, broken out by location.',
+      `<strong>${open.length}</strong> open`,
+      `Exposure <strong>${fmt.usd0(exposure)}</strong>`
+    )}
+
+    ${scaffoldNote('Full claims workspace — AIAG damage codes, photo evidence, carrier denial workflow, recovery aging, and root-cause analytics arrive in Part 3.')}
+
+    <div class="card">
+      <div class="cardHead">
+        <h3>Claims register</h3>
+        <span class="cardSub">90-day window</span>
+      </div>
+      <div class="cardBody flush">
+        <table class="dataTable">
+          <thead>
+            <tr>
+              <th>Claim</th>
+              <th>Location</th>
+              <th>Carrier</th>
+              <th>Reason</th>
+              <th>Status</th>
+              <th>Backup</th>
+              <th class="num">Amount</th>
+              <th class="num">Open</th>
+              <th>Filed</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${claims.map(c => {
+              const loc = select.locationById(c.shippingLocationId);
+              const backup = c.documentsComplete && c.photosAttached
+                ? `<span class="badge badge--good"><span class="dot"></span>complete</span>`
+                : `<span class="badge badge--warn"><span class="dot"></span>incomplete</span>`;
+              return `
+                <tr>
+                  <td class="mono">${c.claimNumber}</td>
+                  <td><strong>${loc?loc.code:'—'}</strong></td>
+                  <td>${carrierName(c.carrierId)}</td>
+                  <td>${c.claimReason}</td>
+                  <td><span class="badge ${claimBadge(c.claimStatus)}"><span class="dot"></span>${ClaimStatusLabel[c.claimStatus]}</span></td>
+                  <td>${backup}</td>
+                  <td class="num">${fmt.usd(c.claimAmount)}</td>
+                  <td class="num strong">${fmt.usd(c.openAmount)}</td>
+                  <td class="mono">${fmt.date(c.createdAt)}</td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+/* ---------------------------------------------------------
+   06 — CARRIER + LANE (Part 1 scaffold)
+   --------------------------------------------------------- */
+
+function view_carrier() {
+  const carriers = select.carriers();
+  return `
+    ${viewHeader(
+      'Carrier + Lane Performance',
+      'Carrier scorecards across OTP, bill accuracy, and claims rate. Lane heatmap and award scenarios in Part 3.',
+      `<strong>${carriers.length}</strong> carriers`,
+      `By volume`
+    )}
+
+    ${scaffoldNote('Lane-level matrix, award scenarios, and per-carrier performance over time arrive in Part 3.')}
+
+    <div class="card">
+      <div class="cardHead">
+        <h3>Carrier scorecards</h3>
+        <span class="cardSub">90-day rolling</span>
+      </div>
+      <div class="cardBody flush">
+        <table class="dataTable">
+          <thead>
+            <tr>
+              <th>Carrier</th>
+              <th>SCAC</th>
+              <th>Mode</th>
+              <th class="num">Volume</th>
+              <th>OTP</th>
+              <th>Bill accuracy</th>
+              <th>Claims rate</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${carriers.map(c => {
+              const full = select.carrierById(c.id);
+              const otpCls = c.otp >= 0.95 ? 'good' : c.otp >= 0.88 ? 'warn' : 'crit';
+              const baCls  = c.billAccuracy >= 0.98 ? 'good' : c.billAccuracy >= 0.95 ? 'warn' : 'crit';
+              const crCls  = c.claimsRate <= 0.005 ? 'good' : c.claimsRate <= 0.01 ? 'warn' : 'crit';
+              return `
+                <tr>
+                  <td><strong>${c.name}</strong></td>
+                  <td class="mono">${full ? full.scac : '—'}</td>
+                  <td>${ModeLabel[c.mode]}</td>
+                  <td class="num">${fmt.num(c.volume)}</td>
+                  <td>
+                    <div class="flexrow">
+                      <div class="progress" style="max-width:80px;"><div class="progressFill ${otpCls}" style="width:${c.otp*100}%"></div></div>
+                      <span class="mono tnum">${fmt.pct(c.otp,1)}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="flexrow">
+                      <div class="progress" style="max-width:80px;"><div class="progressFill ${baCls}" style="width:${c.billAccuracy*100}%"></div></div>
+                      <span class="mono tnum">${fmt.pct(c.billAccuracy,1)}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge badge--${crCls === 'good' ? 'good' : crCls === 'warn' ? 'warn' : 'critical'}">
+                      ${fmt.pct(c.claimsRate, 2)}
+                    </span>
+                  </td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+/* ---------------------------------------------------------
+   07 — EXCEPTIONS (Part 1 scaffold)
+   --------------------------------------------------------- */
+
+function view_exceptions() {
+  const excs = select.exceptions(state.filters);
+  const sev1 = excs.filter(e => e.severity === Severity.SEV1).length;
+  const sev2 = excs.filter(e => e.severity === Severity.SEV2).length;
+  const sev3 = excs.filter(e => e.severity === Severity.SEV3).length;
+  const info = excs.filter(e => e.severity === Severity.INFO).length;
+
+  return `
+    ${viewHeader(
+      'Exceptions',
+      'Action queue. Every exception has an owner, due date, dollar impact, and recommended next action.',
+      `<strong>${excs.length}</strong> total`,
+      `${sev1} sev 1 · ${sev2} sev 2 · ${sev3+info} other`
+    )}
+
+    ${scaffoldNote('Full exception inbox — assignment, snooze, escalation, SLA timer, root-cause tagging, and bulk actions arrive in Part 4.')}
+
+    <div class="stackList">
+      ${excs.map(e => {
+        const loc = select.locationById(e.shippingLocationId);
+        const sevClass = e.severity === Severity.SEV1 ? 'crit'
+                        : e.severity === Severity.INFO ? 'info' : '';
+        const sevBadge = SeverityBadgeClass[e.severity];
+        return `
+          <div class="exceptionCard ${sevClass}">
+            <div class="cardTitleRow">
+              <div>
+                <div class="ttl">${e.title || ExceptionTypeLabel[e.type]}</div>
+                <div class="muted" style="font-size:12px; margin-top:2px;">${e.recommendedAction}</div>
+              </div>
+              <span class="badge ${sevBadge}"><span class="dot"></span>${SeverityLabel[e.severity]}</span>
+            </div>
+            <div class="cardMeta">
+              <span class="meta">ID <strong>${e.id}</strong></span>
+              <span class="meta">Type <strong>${ExceptionTypeLabel[e.type]}</strong></span>
+              <span class="meta"><span class="mono">${loc?loc.code:'—'}</span> · ${loc?loc.name:''}</span>
+              <span class="meta">Owner <strong>${e.owner||'Unassigned'}</strong></span>
+              <span class="meta">Status <strong>${ExceptionStatusLabel[e.status]}</strong></span>
+              <span class="meta">Due <strong>${fmt.date(e.dueAt)}</strong></span>
+              ${e.dollarImpact ? `<span class="meta">Impact <strong>${fmt.usd0(e.dollarImpact)}</strong></span>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+}
+
+/* ---------------------------------------------------------
+   08 — DATA INTAKE (Part 1 scaffold)
+   --------------------------------------------------------- */
+
+function view_intake() {
+  const batches = select.uploadBatches();
+  const ints = select.integrationStatus();
+
+  // Concise source labels for the matrix headers
+  const sourceShort = {
+    [SourceSystem.EXCEL_DROP]:     'Excel',
+    [SourceSystem.SUNNYBROOK_TMS]: 'SB TMS',
+    [SourceSystem.SUNNYBROOK_EDI]: 'SB EDI',
+    [SourceSystem.FEDEX_API]:      'FedEx API',
+    [SourceSystem.FEDEX_WEBHOOK]:  'FedEx whk',
+    [SourceSystem.AUDIT_FILE]:     'Audit',
+    [SourceSystem.MANUAL]:         'Manual',
+    [SourceSystem.MOCK]:           'Mock'
+  };
+
+  // Coverage matrix: which sources contribute records to which location?
+  const coverageFor = (locId, src) => {
+    const ships = SHIPMENTS_SEED.filter(s => s.shippingLocationId === locId && s.sourceSystem === src);
+    const invs  = INVOICES_SEED.filter(i  => i.shippingLocationId === locId && i.sourceSystem === src);
+    const total = ships.length + invs.length;
+    if (total === 0) return '—';
+    if (total >= 2)  return 'active';
+    return 'partial';
+  };
+
+  return `
+    ${viewHeader(
+      'Data Intake',
+      'Excel drop zone, EDI inbound, and SunnyBrook sync. Upload schemas validated against the canonical model.',
+      `<strong>${SOURCES.length}</strong> source types`,
+      `${batches.length} recent batches`
+    )}
+
+    ${scaffoldNote('Full intake — drag-and-drop Excel parser (xlsx via CDN), schema validation, mapping wizard, and ingest history arrive in Part 4.')}
+
+    <div class="panelGrid cols-2">
+      <div class="card">
+        <div class="cardHead">
+          <h3>Recent ingests</h3>
+          <span class="cardSub">Last 24h</span>
+        </div>
+        <div class="cardBody flush">
+          <table class="dataTable">
+            <thead>
+              <tr><th>Source</th><th>File / payload</th><th class="num">Rows</th><th>Quality</th><th>Status</th><th>When</th></tr>
+            </thead>
+            <tbody>
+              ${batches.map(b => `
+                <tr>
+                  <td class="mono">${SourceSystemLabel[b.sourceSystem]}</td>
+                  <td>${b.fileName}</td>
+                  <td class="num">${fmt.num(b.rowCount)}</td>
+                  <td class="num">${(b.dataQualityScore*100).toFixed(0)}%</td>
+                  <td><span class="badge badge--good"><span class="dot"></span>${b.status.toLowerCase()}</span></td>
+                  <td class="mono">${fmt.datetime(b.uploadedAt)}</td>
+                </tr>
+              `).join('')}
+              ${ints.filter(i => i.status === IntegrationConnState.DEGRADED).map(i => `
+                <tr>
+                  <td class="mono">${SourceSystemLabel[i.sourceSystem]}</td>
+                  <td>${i.notes}</td>
+                  <td class="num">—</td>
+                  <td class="num">—</td>
+                  <td><span class="badge badge--warn"><span class="dot"></span>degraded</span></td>
+                  <td class="mono">${fmt.datetime(i.lastRefreshAt)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="cardHead">
+          <h3>Source coverage</h3>
+          <span class="cardSub">By Latham location</span>
+        </div>
+        <div class="cardBody flush">
+          <table class="matrixTable">
+            <thead>
+              <tr>
+                <th></th>
+                ${SOURCES.map(s=>`<th>${sourceShort[s]}</th>`).join('')}
+              </tr>
+            </thead>
+            <tbody>
+              ${SHIPPING_LOCATIONS.map(l=>`
+                <tr>
+                  <th>${l.code}</th>
+                  ${SOURCES.map(s => {
+                    const v = coverageFor(l.id, s);
+                    if (v === '—')       return `<td><span class="badge badge--neutral">—</span></td>`;
+                    if (v === 'partial') return `<td><span class="badge badge--warn"><span class="dot"></span>partial</span></td>`;
+                    return `<td><span class="badge badge--good"><span class="dot"></span>active</span></td>`;
+                  }).join('')}
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ---------------------------------------------------------
+   09 — INTEGRATION HEALTH (Part 1 scaffold)
+   --------------------------------------------------------- */
+
+function view_integration() {
+  const ints = select.integrationStatus();
+  const notHealthy = ints.filter(i =>
+    i.status === IntegrationConnState.DEGRADED ||
+    i.status === IntegrationConnState.NOT_CONNECTED).length;
+
+  return `
+    ${viewHeader(
+      'Integration Health',
+      'SunnyBrook TMS, FedEx, EDI 204/210, Excel intake, and audit-file sFTP — connection state and last refresh.',
+      `<strong>${ints.length}</strong> integrations`,
+      `${notHealthy} not healthy`
+    )}
+
+    ${scaffoldNote('Full integration health — connector configuration, payload diffs, retry log, and webhook test harness arrive in Part 4.')}
+
+    <div class="card">
+      <div class="cardHead">
+        <h3>Connectors</h3>
+        <span class="cardSub">Live status</span>
+      </div>
+      <div class="cardBody flush">
+        <table class="dataTable">
+          <thead>
+            <tr>
+              <th>Source</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Last refresh</th>
+              <th class="num">Records</th>
+              <th class="num">Failed</th>
+              <th class="num">Latency</th>
+              <th>Next step</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${ints.map(s => {
+              const cls = IntegrationBadgeClass[s.status] || 'badge--neutral';
+              return `
+                <tr>
+                  <td>
+                    <div><strong>${s.label}</strong></div>
+                    <div class="faint" style="font-size:11px;">${s.notes || ''}</div>
+                  </td>
+                  <td class="mono">${s.kind}</td>
+                  <td><span class="badge ${cls}"><span class="dot"></span>${IntegrationConnLabel[s.status]}</span></td>
+                  <td class="mono">${fmt.datetime(s.lastRefreshAt)}</td>
+                  <td class="num">${fmt.num(s.recordsReceived || 0)}</td>
+                  <td class="num ${s.recordsFailed ? 'strong' : 'faint'}">${s.recordsFailed || 0}</td>
+                  <td class="num">${s.latencyMs != null ? s.latencyMs + ' ms' : '—'}</td>
+                  <td class="muted">${s.nextStep || '—'}</td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+/* ---------------------------------------------------------
+   BOOT
+   --------------------------------------------------------- */
+
+document.addEventListener('DOMContentLoaded', render);
+</script>
+
+</body>
+</html>
